@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://by76hrpy1jrab"]
+
+[ext_resource type="Script" path="res://packs/hd_world/hd_world.gd" id="1_u6uoe"]
+[ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="2_3sevf"]
+
+[node name="HDWorld" type="Node2D"]
+script = ExtResource("1_u6uoe")
+settings = ExtResource("2_3sevf")
+
+[node name="Box" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="Box"]
+handle_input_locally = false
+size = Vector2i(320, 180)
+render_target_update_mode = 4

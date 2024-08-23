@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HDWorldViewportSettings" load_steps=2 format=3 uid="uid://b1v8wtg845e8u"]
+
+[ext_resource type="Script" path="res://packs/hd_world/hd_world_viewport_settings.gd" id="1_4175r"]
+
+[resource]
+script = ExtResource("1_4175r")
+desired_res = Vector2i(320, 180)
