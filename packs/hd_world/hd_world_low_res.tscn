@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://bmn67vc6yffx4"]
+
+[node name="HDWorld-LowRes" type="Node" groups=["hdworld_lowres"]]

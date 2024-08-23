@@ -8,7 +8,9 @@ extends Camera2D
 var _old_pos: Vector2 = Vector2.ZERO
 
 func _enter_tree() -> void:
-    editor_draw_screen = false
+    if Engine.is_editor_hint():
+        editor_draw_screen = false
+
 
 func _process(_dt: float) -> void:
     if global_position != _old_pos:
