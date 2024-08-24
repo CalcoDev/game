@@ -1,5 +1,6 @@
 extends Node
 
+const CLIENT_CHANNEL: int = 1
 const MAX_CHANNEL_COUNT: int = 32
 
 const SERVER_PORT: int = 25565
@@ -11,9 +12,11 @@ var n_is_server: bool = false
 var n_server_id: int = ID_INVALID
 var n_id: int = ID_INVALID
 
-# [int(id) -> DummyClient]
-var n_clients: Dictionary = {}
 var n_peer: ENetMultiplayerPeer = null
+
+var n_server: DummyServer = null # CLIENT ONLY
+# [int(id) -> DummyClient]
+var n_clients: Dictionary = {} # SERVER ONLY
 
 signal n_on_server_started()
 signal n_on_client_started()
@@ -31,7 +34,7 @@ func _exit_tree() -> void:
 
 func n_create_peer() -> void:
 	n_peer = ENetMultiplayerPeer.new()
-	CLog.info("Created new peer with ID [%d]." % n_peer.get_unique_id())
+	CLog.info("Created new peer with unknown ID for now (waiting until connection ...)")
 	_setup_peer_events()
 
 func n_create_server() -> void:
@@ -48,6 +51,7 @@ func n_create_server() -> void:
 		CLog.error("Hello thjere was issue creating serrver.")
 		return
 	CLog.info("Created server with port [%s]." % SERVER_PORT)
+	CLog.info("Received peer id [%d]" % n_peer.get_unique_id())
 
 	multiplayer.multiplayer_peer = n_peer
 	n_id = n_peer.get_unique_id()
@@ -77,6 +81,7 @@ func n_create_client(server_ip: String) -> void:
 		CLog.error("An issue occurred while creating client and / or connecting to server!.")
 		return
 	CLog.info("Created client on port [%s] and connected to server with addr [%s]" % ["UNKNOWN HELP", server_ip])
+	CLog.info("Received peer id [%d]" % n_peer.get_unique_id())
 
 	multiplayer.multiplayer_peer = n_peer
 	n_id = n_peer.get_unique_id()
@@ -94,8 +99,9 @@ func _setup_peer_events() -> void:
 # No inter client connections. All talks happen over server.
 func _on_peer_connected(id: int) -> void:
 	CLog.info("Peer [%d] connected to own peer." % id)
-	n_clients[id] = DummyClient.new(id)
-	# TODO(calco): Figure out what to do if client / if there is anything to be done
+	if n_is_server:
+		n_clients[id] = DummyClient.new(id)
+		rpc_announce_player_joined.rpc(DummyPlayer.new(id))
 
 # NOTE(calco): func is called on any peer, to bring everyone up to date effectively.
 # a (client) connects to B (server) => B is told of a, a is told of everyone on B (afaik)
@@ -103,5 +109,29 @@ func _on_peer_connected(id: int) -> void:
 # No inter client connections. All talks happen over server.
 func _on_peer_disconnected(id: int) -> void:
 	CLog.info("Peer [%d] disconnected." % id)
-	n_clients.erase(id)
+	if n_is_server:
+		n_clients.erase(id)
+		rpc_announce_player_disconnect.rpc(id)
+
+	# todo(calco): see if the bellow todo is still a todo
 	# TODO(calco): Handle server himself disconnect lol
+
+
+
+
+####################################################
+################ RPC PEER FUNCTIONS ################
+####################################################
+
+
+
+
+@rpc("any_peer", "call_local", "reliable", CLIENT_CHANNEL)
+func rpc_announce_player_joined(player: DummyPlayer) -> void:
+	CLog.info("Woah! Player joined with stuff: %s" % player.to_string())
+	# TODO(calco): Handle player joining lol
+
+@rpc("any_peer", "call_remote", "reliable", CLIENT_CHANNEL)
+func rpc_announce_player_disconnect(player_id: int) -> void:
+	CLog.info("Oh nooo! Player [%d] left! How sad >:( ...." % player_id)
+	# TODO(calco): Handle player disconnecting lol

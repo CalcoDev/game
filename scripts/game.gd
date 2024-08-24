@@ -15,3 +15,9 @@ func _enter_tree() -> void:
 		_dbg_instance_id = int(args[1])
 		CLog.set_log_file("res://logs/instance_%d.log" % _dbg_instance_id)
 		CLog.info("Log file for instance id [%d]" % _dbg_instance_id)
+	
+	var data = DummyPlayer.new(52)
+	var bytes = Serializer.Serialize(data)
+	print("Bytes: ", bytes)
+	var reconstructed: DummyPlayer = Serializer.Deserialize(bytes, DummyPlayer)
+	print(reconstructed)
