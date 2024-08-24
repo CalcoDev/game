@@ -29,6 +29,11 @@ func _exit_tree() -> void:
 		CLog.info("Multiplayer Peer (Godot) was still on when network manager was disconnected.")
 		multiplayer.multiplayer_peer = null
 
+func n_create_peer() -> void:
+	n_peer = ENetMultiplayerPeer.new()
+	CLog.info("Created new peer with ID [%d]." % n_peer.get_unique_id())
+	_setup_peer_events()
+
 func n_create_server() -> void:
 	if n_peer != null:
 		CLog.warn("Peer was not null when trying to create new server! Closing ...")
@@ -37,10 +42,7 @@ func n_create_server() -> void:
 		CLog.warn("Multiplayer peer (Godot) was not null when trying to create new server! Closing ...")
 		multiplayer.multiplayer_peer = null
 	
-	CLog.info("Creating new peer...")
-	n_peer = ENetMultiplayerPeer.new()
-	_setup_peer_events()
-	
+	n_create_peer()
 	var res = n_peer.create_server(SERVER_PORT, 32, MAX_CHANNEL_COUNT)
 	if res == ERR_CANT_CREATE:
 		CLog.error("Hello thjere was issue creating serrver.")
@@ -68,13 +70,11 @@ func n_create_client(server_ip: String) -> void:
 		CLog.warn("Multiplayer peer (Godot) was not null when trying to create new client! Closing ...")
 		multiplayer.multiplayer_peer = null
 	
-	CLog.info("Creating new peer...")
-	n_peer = ENetMultiplayerPeer.new()
-	_setup_peer_events()
+	n_create_peer()
 	
 	var res = n_peer.create_client(server_ip, SERVER_PORT, MAX_CHANNEL_COUNT)
 	if res == ERR_CANT_CREATE:
-		CLog.error("Hello thjere was issue creating client and or connecting to server!.")
+		CLog.error("An issue occurred while creating client and / or connecting to server!.")
 		return
 	CLog.info("Created client on port [%s] and connected to server with addr [%s]" % ["UNKNOWN HELP", server_ip])
 
@@ -88,16 +88,20 @@ func _setup_peer_events() -> void:
 	n_peer.peer_connected.connect(_on_peer_connected)
 	n_peer.peer_disconnected.connect(_on_peer_disconnected)
 
+# NOTE(calco): func is called on any peer, to bring everyone up to date effectively.
+# a (client) connects to B (server) => B is told of a, a is told of everyone on B (afaik)
+# Assumption SEEMS to be correct, but remember current model is [a, b, c, d, e] => S. 
+# No inter client connections. All talks happen over server.
 func _on_peer_connected(id: int) -> void:
-	if n_is_server:
-		CLog.info("Peer [%d] connected to server." % id)
-		n_clients[id] = DummyClient.new(id)
-		# TODO(calco): Handle actual joining logic (tell ... about ...)
+	CLog.info("Peer [%d] connected to own peer." % id)
+	n_clients[id] = DummyClient.new(id)
 	# TODO(calco): Figure out what to do if client / if there is anything to be done
 
+# NOTE(calco): func is called on any peer, to bring everyone up to date effectively.
+# a (client) connects to B (server) => B is told of a, a is told of everyone on B (afaik)
+# Assumption SEEMS to be correct, but remember current model is [a, b, c, d, e] => S. 
+# No inter client connections. All talks happen over server.
 func _on_peer_disconnected(id: int) -> void:
-	if n_is_server:
-		CLog.info("Peer [%d] disconnected." % id)
-		n_clients.erase(id)
-		# TODO(calco): Handle connection logic
+	CLog.info("Peer [%d] disconnected." % id)
+	n_clients.erase(id)
 	# TODO(calco): Handle server himself disconnect lol
