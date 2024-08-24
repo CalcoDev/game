@@ -208,3 +208,6 @@ bh_unicode_properties.cache
 GitHub.sublime-settings Godot 4+ specific ignores
 .godot/
 android/
+
+logs/
+logs/**/*
