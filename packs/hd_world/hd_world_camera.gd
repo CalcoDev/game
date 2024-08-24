@@ -13,12 +13,14 @@ func _enter_tree() -> void:
 
 
 func _process(_dt: float) -> void:
-    if global_position != _old_pos:
-        _handle_position_change()
-        _old_pos = global_position
+    if Engine.is_editor_hint():
+        if global_position != _old_pos:
+            _handle_position_change()
+            _old_pos = global_position
 
 func _draw() -> void:
-    _draw_viewport_rect()
+    if Engine.is_editor_hint():
+        _draw_viewport_rect()
 
 func _draw_viewport_rect() -> void:
     if settings != null:

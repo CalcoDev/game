@@ -19,11 +19,14 @@ config/icon="res://art/icon.png"
 
 Game="*res://scenes/managers/game.tscn"
 HDWorld="*res://packs/hd_world/hd_world.tscn"
+NetworkManager="*res://packs/networking/NetworkManager.tscn"
 
 [display]
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 

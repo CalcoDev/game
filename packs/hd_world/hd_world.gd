@@ -8,6 +8,9 @@ const HIGHRES_GROUP = "hdworld_highres"
 var lowres_viewport: SubViewport = null
 var highres_viewport: Node = null
 
+
+# TODO(calco): Set up sane defaults as we go along the way.
+
 enum SceneLoadMode {
     Add = 0,
     Replace = 1
@@ -20,7 +23,8 @@ func _enter_tree() -> void:
     lowres_viewport.size = settings.desired_res
 
     # TODO(calco): Compute the number of autoloads at runtime
-    var loaded_scene = get_tree().get_root().get_child(2)
+    var root = get_tree().get_root()
+    var loaded_scene = root.get_child(root.get_child_count() - 1)
     setup_scene_from_node(loaded_scene, SceneLoadMode.Replace)
 
     # TODO(calco): Reset the default texture filter alg to linear or sth
@@ -30,6 +34,7 @@ func _enter_tree() -> void:
     get_tree().get_root().size_changed.connect(_handle_window_size_change)
 
 func setup_viewport_scale() -> void:
+    # TODO(calco): Figure out how to scale without breaking everything.
     lowres_viewport.get_parent().scale = get_tree().get_root().size / settings.desired_res
 
 func setup_scene_from_node(scene: Node, mode: SceneLoadMode) -> void:
@@ -55,6 +60,7 @@ func setup_scene_from_node(scene: Node, mode: SceneLoadMode) -> void:
         highres_viewport.add_child(highres)
 
 func _handle_window_size_change() -> void:
+    # TODO(calco): Properly handle window resizes
     print("Window resized to: ", get_tree().get_root().size)
     setup_viewport_scale()
 
