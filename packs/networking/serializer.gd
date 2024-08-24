@@ -1,16 +1,21 @@
 class_name Serializer
 
-# NOTE(calco): 
+# NOTE(calco): Right now we are serializing default godot types, so we are NOT space efficient at all
+# basically everything atm is 8 bytes per value :skull:
+# TODO(calco): FIX THIS
 
-static func Serialize(object: Object) -> PackedByteArray:
+# TODO(calco): Implement compression
+static func Serialize(object: Object, _compress: bool = false) -> PackedByteArray:
 	var bytes = PackedByteArray()
 	bytes.resize(ComputeByteSize(object))
 	var c_offset: int = 0
 	for property_dict in object.get_property_list():
-		c_offset += _serialize_property(object, property_dict, bytes, c_offset)
+		c_offset = _serialize_property(object, property_dict, bytes, c_offset)
+	# if compress:
+	# 	return bytes.compress(FileAccess.CompressionMode.COMPRESSION_FASTLZ)
 	return bytes
 
-static func Deserialize(bytes: PackedByteArray, type: Object) -> Variant:
+static func Deserialize(type: Object, bytes: PackedByteArray, _compressed: bool = false) -> Variant:
 	var object: Object = null
 	if "default" in type:
 		object = type.default()
@@ -21,15 +26,18 @@ static func Deserialize(bytes: PackedByteArray, type: Object) -> Variant:
 		print(type)
 		push_error("FATAL ERROR: Tried deserializing a type which has no `default` method, and overrides `_init`!")
 	
+	# if compressed:
+	# 	bytes = bytes.decompress(ComputeByteSize(
+	
 	var c_offset: int = 0
 	for property_dict in object.get_property_list():
-		c_offset += _deserialize_property(object, property_dict, bytes, c_offset)
+		c_offset = _deserialize_property(object, property_dict, bytes, c_offset)
 	return object
 
 static func ComputeByteSize(object: Object) -> int:
 	var c_offset: int = 0
 	for property_dict in object.get_property_list():
-		c_offset += _compute_byte_size(object, property_dict, c_offset)
+		c_offset = _compute_byte_size(object, property_dict, c_offset)
 	return c_offset
 	
 # Returns number of bytes read

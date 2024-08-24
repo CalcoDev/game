@@ -101,7 +101,7 @@ func _on_peer_connected(id: int) -> void:
 	CLog.info("Peer [%d] connected to own peer." % id)
 	if n_is_server:
 		n_clients[id] = DummyClient.new(id)
-		rpc_announce_player_joined.rpc(DummyPlayer.new(id))
+		rpc_announce_player_joined.rpc(Serializer.Serialize(DummyPlayer.new(id)))
 
 # NOTE(calco): func is called on any peer, to bring everyone up to date effectively.
 # a (client) connects to B (server) => B is told of a, a is told of everyone on B (afaik)
@@ -111,7 +111,11 @@ func _on_peer_disconnected(id: int) -> void:
 	CLog.info("Peer [%d] disconnected." % id)
 	if n_is_server:
 		n_clients.erase(id)
-		rpc_announce_player_disconnect.rpc(id)
+		# TODO(calco): This errors as it tries to send packet to disconnected peer as well...
+		# idk how fix as this is godot side...
+		for client_id in n_clients:
+			rpc_announce_player_disconnect.rpc_id(client_id, id)
+			
 
 	# todo(calco): see if the bellow todo is still a todo
 	# TODO(calco): Handle server himself disconnect lol
@@ -127,7 +131,8 @@ func _on_peer_disconnected(id: int) -> void:
 
 
 @rpc("any_peer", "call_local", "reliable", CLIENT_CHANNEL)
-func rpc_announce_player_joined(player: DummyPlayer) -> void:
+func rpc_announce_player_joined(player_bytes: PackedByteArray) -> void:
+	var player = Serializer.Deserialize(DummyPlayer, player_bytes)
 	CLog.info("Woah! Player joined with stuff: %s" % player.to_string())
 	# TODO(calco): Handle player joining lol
 
