@@ -39,6 +39,8 @@ project/assembly_name="game"
 
 hdworld_lowres=""
 hdworld_highres=""
+lights_occluder=""
+lights_emitter=""
 
 [input]
 

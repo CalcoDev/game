@@ -8,7 +8,6 @@ const HIGHRES_GROUP = "hdworld_highres"
 var lowres_viewport: SubViewport = null
 var highres_viewport: Node = null
 
-
 # TODO(calco): Set up sane defaults as we go along the way.
 
 enum SceneLoadMode {
@@ -33,6 +32,7 @@ func _enter_tree() -> void:
     setup_viewport_scale()
     # get_tree().get_root().size_changed.connect(_handle_window_size_change)
     get_viewport().size_changed.connect(_handle_viewport_size_change)
+    print("hd world enter tree")
 
 func setup_viewport_scale() -> void:
     # TODO(calco): Figure out how to scale without breaking everything.

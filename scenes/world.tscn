@@ -1,10 +1,37 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=17 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
 [ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_gox5e"]
-[ext_resource type="Texture2D" uid="uid://d2m88xjuruepm" path="res://art/players/player_milkman_grey.png" id="4_2cmx1"]
+[ext_resource type="PackedScene" uid="uid://utaas26bvkau" path="res://scenes/entities/player.tscn" id="4_jqtip"]
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="5_mxkng"]
+[ext_resource type="Script" path="res://packs/lights/lights.gd" id="5_n18ro"]
+[ext_resource type="Texture2D" uid="uid://g64yc7w28kit" path="res://packs/lights/emitter.png" id="5_wa3ef"]
+[ext_resource type="Shader" path="res://packs/lights/voronoi_seed.gdshader" id="7_adt2f"]
+[ext_resource type="Texture2D" uid="uid://cqgxxk81epdm4" path="res://packs/lights/pixel.png" id="8_6gxrc"]
+[ext_resource type="Shader" path="res://packs/lights/jump_flood_pass.gdshader" id="9_uxsdu"]
+[ext_resource type="Shader" path="res://packs/lights/gi.gdshader" id="10_3u08w"]
+[ext_resource type="Shader" path="res://packs/lights/distance_fields.gdshader" id="10_5ovmx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ur00u"]
+shader = ExtResource("7_adt2f")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iagfh"]
+shader = ExtResource("9_uxsdu")
+shader_parameter/u_offset = 0.0
+shader_parameter/u_level = 0.0
+shader_parameter/u_max_steps = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_odcfa"]
+shader = ExtResource("10_5ovmx")
+shader_parameter/u_dist_mod = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yl7ta"]
+shader = ExtResource("10_3u08w")
+shader_parameter/u_rays_per_pixel = 32
+shader_parameter/u_emission_multi = 1.0
+shader_parameter/u_max_raymarch_steps = 128
+shader_parameter/u_dist_mod = 1.0
 
 [node name="World" type="Node2D"]
 
@@ -16,10 +43,101 @@ editor_draw_screen = false
 script = ExtResource("2_4eanh")
 settings = ExtResource("3_gox5e")
 
-[node name="Sprite2D" type="Sprite2D" parent="HDWorld-LowRes"]
-position = Vector2(76, 65)
-texture = ExtResource("4_2cmx1")
-centered = false
+[node name="Lights" type="Node" parent="HDWorld-LowRes"]
+script = ExtResource("5_n18ro")
+
+[node name="LightViewport" type="SubViewport" parent="HDWorld-LowRes/Lights"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(320, 180)
+
+[node name="LightTexture" type="TextureRect" parent="HDWorld-LowRes/Lights"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Emitter" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"]]
+position = Vector2(43, 77)
+texture = ExtResource("5_wa3ef")
+
+[node name="Emitter3" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"]]
+position = Vector2(83, 145)
+texture = ExtResource("5_wa3ef")
+
+[node name="Emitter2" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"]]
+position = Vector2(183, 143)
+texture = ExtResource("5_wa3ef")
+
+[node name="Occluder" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_occluder"]]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(99, 115)
+texture = ExtResource("5_wa3ef")
+
+[node name="Occluder2" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_occluder"]]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(164, 116)
+texture = ExtResource("5_wa3ef")
+
+[node name="Occluder3" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_occluder"]]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(86, 73)
+texture = ExtResource("5_wa3ef")
+
+[node name="VoronoiViewport" type="SubViewport" parent="HDWorld-LowRes/Lights"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(320, 180)
+
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/VoronoiViewport"]
+material = SubResource("ShaderMaterial_ur00u")
+offset_right = 320.0
+offset_bottom = 180.0
+texture = ExtResource("8_6gxrc")
+
+[node name="JumpFloodPass" type="SubViewport" parent="HDWorld-LowRes/Lights"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(320, 180)
+
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/JumpFloodPass"]
+material = SubResource("ShaderMaterial_iagfh")
+offset_right = 320.0
+offset_bottom = 180.0
+texture = ExtResource("8_6gxrc")
+
+[node name="DistanceField" type="SubViewport" parent="HDWorld-LowRes/Lights"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(320, 180)
+
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/DistanceField"]
+material = SubResource("ShaderMaterial_odcfa")
+offset_right = 320.0
+offset_bottom = 180.0
+texture = ExtResource("8_6gxrc")
+
+[node name="GIPass" type="SubViewport" parent="HDWorld-LowRes/Lights"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(320, 180)
+
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/GIPass"]
+material = SubResource("ShaderMaterial_yl7ta")
+offset_right = 320.0
+offset_bottom = 180.0
+texture = ExtResource("8_6gxrc")
+
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights"]
+offset_right = 320.0
+offset_bottom = 180.0
+
+[node name="Player" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"] instance=ExtResource("4_jqtip")]
+position = Vector2(144, 154)
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("5_mxkng")]
 

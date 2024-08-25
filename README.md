@@ -25,14 +25,16 @@ tudyslaier calcopod
 
 
 ### 25.08.2024:
-- [ ] Main menu screen
-- [ ] Scene transitions (with adequate HDWorld setup)
-- [ ] Player walking simulator
+- [x] Main menu screen
+- [x] Scene transitions (with adequate HDWorld setup)
+- [ ] Lighting system
+- [ ] 1 - Player walking simulator
+  - [ ] Wheat field (display + physics)
+  - [ ] House
+    - [ ] Exterior
+    - [ ] Interior
+      - [ ] ???
 - [ ] Basic save / load system (character and world files)
+- [ ] Multiplayer stuff
 
 ### 26.08.2024:
-- [ ] Wheat field (display + physics)
-- [ ] House
-  - [ ] Exterior
-  - [ ] Interior
-    - [ ] ???
