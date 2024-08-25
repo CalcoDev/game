@@ -4,11 +4,14 @@ extends Resource
 @export var finished: bool = false
 @export var stopped: bool = false
 
+static var YES_CTX: bool = true
+static var NO_CTX: bool  = false
+
 signal on_finished()
 signal on_stopped()
 
 var stoppable: bool = true
-var awaitable
+var awaitable: Awaitable
 
 var should_cont:
     get:
@@ -17,16 +20,23 @@ var should_cont:
 func _init(p_awaitable, p_stoppable) -> void:
     finished = false
     stopped = false
-    awaitable = p_awaitable
+    if p_awaitable is Awaitable:
+        awaitable = p_awaitable
+    else:
+        awaitable = Awaitable.try_from(p_awaitable)
     stoppable = p_stoppable
 
-func run(params: Dictionary) -> bool:
-    if awaitable is Coro:
-        await awaitable.run()
-    elif awaitable is Callable:
-        await awaitable.call(self, params)
-    else:
-        await awaitable
+func run() -> bool:
+    await awaitable.run(self)
+    if stoppable and stopped:
+        finished = false
+        return false
+    finished = true
+    on_finished.emit()
+    return true
+
+func run_params(params: Dictionary) -> bool:
+    await awaitable.run_params(self, params)
     if stoppable and stopped:
         finished = false
         return false
@@ -44,20 +54,25 @@ static func start_coroutine(runnable) -> Coro:
     var coro = Coro.new(runnable, true)
     return coro
 
-static func first_of(awaitables: Array, stop_on_end=true):
-    var coros: Array[Coro] = []
+# Returns the first awaitable that finished
+# TODO(calco): Should this listen for on_stopped too?
+static func first_of(awaitables: Array, listen_on_stopped: bool, stop_on_end=true) -> Awaitable:
+    var coros: Array = []
     var coro_finished = [- 1]
     
-    var on_coro_finished = func(idx):
-        coro_finished[0] = idx
+    var on_coro_finished = func(idx, p_stopped):
+        if not p_stopped or (p_stopped and listen_on_stopped):
+            coro_finished[0] = idx
     
-    for c_awaitable in awaitables:
+    for i in len(awaitables):
+        awaitables[i] = Awaitable.try_from(awaitables[i])
         var idx = len(coros)
-        coros.append(Coro.new(c_awaitable, true))
-        coros[idx].on_finished.connect(func(): on_coro_finished.call(idx))
+        coros.append(Coro.new(awaitables[i], true))
+        coros[idx].on_finished.connect(func(): on_coro_finished.call(idx, false))
+        coros[idx].on_stopped.connect(func(): on_coro_finished.call(idx, true))
     
     for coro in coros:
-        coro.run({})
+        coro.run()
     
     while coro_finished[0] == - 1:
         await Game.on_pre_process
