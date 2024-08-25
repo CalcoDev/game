@@ -31,11 +31,12 @@ func _enter_tree() -> void:
     # in order to ensure proper high res scaling
 
     setup_viewport_scale()
-    get_tree().get_root().size_changed.connect(_handle_window_size_change)
+    # get_tree().get_root().size_changed.connect(_handle_window_size_change)
+    get_viewport().size_changed.connect(_handle_viewport_size_change)
 
 func setup_viewport_scale() -> void:
     # TODO(calco): Figure out how to scale without breaking everything.
-    lowres_viewport.get_parent().scale = get_tree().get_root().size / settings.desired_res
+    lowres_viewport.get_parent().scale = get_viewport().get_visible_rect().size / Vector2(settings.desired_res)
 
 func setup_scene_from_node(scene: Node, mode: SceneLoadMode) -> void:
     # TODO(calco): atm `_get_first_child_with_group` can return ANY child.
@@ -59,9 +60,8 @@ func setup_scene_from_node(scene: Node, mode: SceneLoadMode) -> void:
         highres.owner = null
         highres_viewport.add_child(highres)
 
-func _handle_window_size_change() -> void:
-    # TODO(calco): Properly handle window resizes
-    print("Window resized to: ", get_tree().get_root().size)
+func _handle_viewport_size_change() -> void:
+    # TODO(calco): Properly handle viewport resizes
     setup_viewport_scale()
 
 func _get_first_child_with_group(node: Node, grp: StringName) -> Node:
