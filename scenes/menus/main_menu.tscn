@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgnrqi2ycjytp"]
+
+[ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="1_g7qut"]
+[ext_resource type="Script" path="res://scripts/menus/ui_main_menu.gd" id="2_5lh6v"]
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="HDWorld-HighRes" parent="." instance=ExtResource("1_g7qut")]
+
+[node name="UI" type="CanvasLayer" parent="HDWorld-HighRes" node_paths=PackedStringArray("_ready_btn")]
+layer = 5
+script = ExtResource("2_5lh6v")
+_ready_btn = NodePath("Start")
+
+[node name="Title" type="Label" parent="HDWorld-HighRes/UI"]
+offset_left = 452.0
+offset_top = 165.0
+offset_right = 1186.0
+offset_bottom = 514.0
+theme_override_font_sizes/font_size = 256
+text = "game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start" type="Button" parent="HDWorld-HighRes/UI"]
+offset_left = 698.0
+offset_top = 542.0
+offset_right = 932.0
+offset_bottom = 620.0
+theme_override_font_sizes/font_size = 32
+text = "Start Game"

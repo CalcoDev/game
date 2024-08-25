@@ -43,19 +43,19 @@ func setup_scene_from_node(scene: Node, mode: SceneLoadMode) -> void:
     var lowres = _get_first_child_with_group(scene, LOWRES_GROUP)
     var highres = _get_first_child_with_group(scene, HIGHRES_GROUP)
 
+    if mode == SceneLoadMode.Replace:
+        for child in lowres_viewport.get_children():
+            child.queue_free()
     if lowres != null:
         scene.remove_child(lowres)
-        if mode == SceneLoadMode.Replace:
-            for child in lowres_viewport.get_children():
-                child.queue_free()
         lowres.owner = null
         lowres_viewport.add_child(lowres)
     
+    if mode == SceneLoadMode.Replace:
+        for child in highres_viewport.get_children():
+            child.queue_free()
     if highres != null:
         scene.remove_child(highres)
-        if mode == SceneLoadMode.Replace:
-            for child in highres_viewport.get_children():
-                child.queue_free()
         highres.owner = null
         highres_viewport.add_child(highres)
 

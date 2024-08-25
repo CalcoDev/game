@@ -49,6 +49,7 @@ class CoroA extends Awaitable:
         super(p_coro, p_params)
         await to_await.run(p_params)
 
+# TODO(calco): This needs to heavily be refactored.
 class CallableA extends Awaitable:
     func _init(p_callable: Callable) -> void:
         to_await = p_callable

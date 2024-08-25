@@ -12,6 +12,7 @@ config_version=5
 
 config/name="game"
 config/description="[game]"
+run/main_scene="res://scenes/menus/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://art/icon.png"
 

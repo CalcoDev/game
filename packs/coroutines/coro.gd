@@ -35,7 +35,7 @@ func run() -> bool:
     on_finished.emit()
     return true
 
-func run_params(params: Dictionary) -> bool:
+func run_params(params) -> bool:
     await awaitable.run_params(self, params)
     if stoppable and stopped:
         finished = false

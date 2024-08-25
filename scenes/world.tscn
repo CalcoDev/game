@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1n6ximmd05x8"]
+
+[ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
+[ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
+[ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_gox5e"]
+[ext_resource type="Texture2D" uid="uid://d2m88xjuruepm" path="res://art/players/player_milkman_grey.png" id="4_2cmx1"]
+[ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="5_mxkng"]
+
+[node name="World" type="Node2D"]
+
+[node name="HDWorld-LowRes" parent="." instance=ExtResource("1_i3fgo")]
+
+[node name="HDWorldCamera" type="Camera2D" parent="HDWorld-LowRes"]
+position = Vector2(160, 90)
+editor_draw_screen = false
+script = ExtResource("2_4eanh")
+settings = ExtResource("3_gox5e")
+
+[node name="Sprite2D" type="Sprite2D" parent="HDWorld-LowRes"]
+position = Vector2(76, 65)
+texture = ExtResource("4_2cmx1")
+centered = false
+
+[node name="HDWorld-HighRes" parent="." instance=ExtResource("5_mxkng")]
+
+[node name="UI" type="CanvasLayer" parent="HDWorld-HighRes"]
+layer = 5
+
+[node name="Title" type="Label" parent="HDWorld-HighRes/UI"]
+offset_left = 1287.0
+offset_top = 8.0
+offset_right = 1595.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 64
+text = "some ui"
+horizontal_alignment = 1
+vertical_alignment = 1
