@@ -2,7 +2,8 @@ extends Node
 
 signal on_pre_process()
 enum ProcessList {
-	Game = -1,
+	Game = -100,
+	Lights = -10,
 	Default = 0,
 }
 

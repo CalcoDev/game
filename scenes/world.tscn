@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=12 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
@@ -7,31 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="5_mxkng"]
 [ext_resource type="Script" path="res://packs/lights/lights.gd" id="5_n18ro"]
 [ext_resource type="Texture2D" uid="uid://g64yc7w28kit" path="res://packs/lights/emitter.png" id="5_wa3ef"]
-[ext_resource type="Shader" path="res://packs/lights/voronoi_seed.gdshader" id="7_adt2f"]
-[ext_resource type="Texture2D" uid="uid://cqgxxk81epdm4" path="res://packs/lights/pixel.png" id="8_6gxrc"]
-[ext_resource type="Shader" path="res://packs/lights/jump_flood_pass.gdshader" id="9_uxsdu"]
-[ext_resource type="Shader" path="res://packs/lights/gi.gdshader" id="10_3u08w"]
-[ext_resource type="Shader" path="res://packs/lights/distance_fields.gdshader" id="10_5ovmx"]
+[ext_resource type="Shader" path="res://packs/lights/shadow_pixels_pass.gdshader" id="6_hx7cs"]
+[ext_resource type="Texture2D" uid="uid://bmi4eyorjdvj3" path="res://packs/lights/house_occluder.png" id="7_sex43"]
+[ext_resource type="Texture2D" uid="uid://cqgxxk81epdm4" path="res://packs/lights/pixel.png" id="7_v4bkp"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ur00u"]
-shader = ExtResource("7_adt2f")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iagfh"]
-shader = ExtResource("9_uxsdu")
-shader_parameter/u_offset = 0.0
-shader_parameter/u_level = 0.0
-shader_parameter/u_max_steps = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_odcfa"]
-shader = ExtResource("10_5ovmx")
-shader_parameter/u_dist_mod = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yl7ta"]
-shader = ExtResource("10_3u08w")
-shader_parameter/u_rays_per_pixel = 32
-shader_parameter/u_emission_multi = 1.0
-shader_parameter/u_max_raymarch_steps = 128
-shader_parameter/u_dist_mod = 1.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kykxt"]
+shader = ExtResource("6_hx7cs")
+shader_parameter/u_shadow_color = Color(0.32549, 0.313726, 0.227451, 1)
+shader_parameter/u_light_dir = Vector2(0, 0)
+shader_parameter/u_distance = 0.05
 
 [node name="World" type="Node2D"]
 
@@ -43,101 +27,65 @@ editor_draw_screen = false
 script = ExtResource("2_4eanh")
 settings = ExtResource("3_gox5e")
 
-[node name="Lights" type="Node" parent="HDWorld-LowRes"]
-script = ExtResource("5_n18ro")
+[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes/HDWorldCamera"]
+modulate = Color(0.513726, 0.423529, 0.243137, 1)
+z_index = -100
+z_as_relative = false
+offset_left = -160.0
+offset_top = -90.0
+offset_right = 160.0
+offset_bottom = 90.0
 
-[node name="LightViewport" type="SubViewport" parent="HDWorld-LowRes/Lights"]
+[node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
+position = Vector2(309, 25)
+
+[node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("_dbg_display_tex")]
+script = ExtResource("5_n18ro")
+_dbg_display_tex = NodePath("../TextureRect")
+min_shadow_length = 30.0
+max_shadow_length = 200.0
+
+[node name="SceneViewport" type="SubViewport" parent="HDWorld-LowRes/Lights"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-canvas_item_default_texture_filter = 0
 size = Vector2i(320, 180)
 
-[node name="LightTexture" type="TextureRect" parent="HDWorld-LowRes/Lights"]
+[node name="RenderPasses" type="Node" parent="HDWorld-LowRes/Lights"]
+
+[node name="ShadowPixelsPass" type="SubViewport" parent="HDWorld-LowRes/Lights/RenderPasses"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(320, 180)
+
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/RenderPasses/ShadowPixelsPass"]
+material = SubResource("ShaderMaterial_kykxt")
 offset_right = 40.0
 offset_bottom = 40.0
+texture = ExtResource("7_v4bkp")
 
-[node name="Emitter" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"]]
-position = Vector2(43, 77)
-texture = ExtResource("5_wa3ef")
-
-[node name="Emitter3" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"]]
-position = Vector2(83, 145)
-texture = ExtResource("5_wa3ef")
-
-[node name="Emitter2" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"]]
-position = Vector2(183, 143)
-texture = ExtResource("5_wa3ef")
-
-[node name="Occluder" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_occluder"]]
+[node name="Occluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(99, 115)
+position = Vector2(55, 60)
 texture = ExtResource("5_wa3ef")
 
-[node name="Occluder2" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_occluder"]]
+[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/Occluder"]
+polygon = PackedVector2Array(-8, 0, -5, 5, 0, 8, 5, 5, 8, 0, 5, -5, 0, -8, -5, -5)
+
+[node name="HouseOccluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(164, 116)
-texture = ExtResource("5_wa3ef")
+position = Vector2(162, 81)
+texture = ExtResource("7_sex43")
+centered = false
 
-[node name="Occluder3" type="Sprite2D" parent="HDWorld-LowRes/Lights" groups=["lights_occluder"]]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(86, 73)
-texture = ExtResource("5_wa3ef")
+[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/HouseOccluder"]
+polygon = PackedVector2Array(0, 57, 4, 61, 62, 62, 69, 57, 62, 1, 8, 0, 4, 6)
 
-[node name="VoronoiViewport" type="SubViewport" parent="HDWorld-LowRes/Lights"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(320, 180)
-
-[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/VoronoiViewport"]
-material = SubResource("ShaderMaterial_ur00u")
-offset_right = 320.0
-offset_bottom = 180.0
-texture = ExtResource("8_6gxrc")
-
-[node name="JumpFloodPass" type="SubViewport" parent="HDWorld-LowRes/Lights"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(320, 180)
-
-[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/JumpFloodPass"]
-material = SubResource("ShaderMaterial_iagfh")
-offset_right = 320.0
-offset_bottom = 180.0
-texture = ExtResource("8_6gxrc")
-
-[node name="DistanceField" type="SubViewport" parent="HDWorld-LowRes/Lights"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(320, 180)
-
-[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/DistanceField"]
-material = SubResource("ShaderMaterial_odcfa")
-offset_right = 320.0
-offset_bottom = 180.0
-texture = ExtResource("8_6gxrc")
-
-[node name="GIPass" type="SubViewport" parent="HDWorld-LowRes/Lights"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(320, 180)
-
-[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/GIPass"]
-material = SubResource("ShaderMaterial_yl7ta")
-offset_right = 320.0
-offset_bottom = 180.0
-texture = ExtResource("8_6gxrc")
-
-[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights"]
-offset_right = 320.0
-offset_bottom = 180.0
-
-[node name="Player" parent="HDWorld-LowRes/Lights" groups=["lights_emitter"] instance=ExtResource("4_jqtip")]
-position = Vector2(144, 154)
+[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes"]
+offset_right = 1.0
+offset_bottom = 1.0
+texture = ExtResource("7_v4bkp")
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("5_mxkng")]
 
@@ -153,3 +101,5 @@ theme_override_font_sizes/font_size = 64
 text = "some ui"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[editable path="HDWorld-LowRes/Player"]

@@ -14,6 +14,7 @@ config/name="game"
 config/description="[game]"
 run/main_scene="res://scenes/menus/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=240
 config/icon="res://art/icon.png"
 
 [autoload]
