@@ -5,9 +5,9 @@ const HIGHRES_GROUP = "hdworld_highres"
 
 @export var settings: HDWorldViewportSettings = null
 
-var camera: Camera2D = null
 var cam_base_pos: Vector2 = Vector2.ZERO
 
+var box: SubViewportContainer = null
 var lowres_viewport: SubViewport = null
 var highres_viewport: Node = null
 
@@ -19,15 +19,13 @@ enum SceneLoadMode {
 }
 
 func _enter_tree() -> void:
-    process_priority = Game.ProcessList.HDWorld + 1
-    camera = $"Camera2D"
+    box = $"Box"
     lowres_viewport = $"Box/LowresViewport"
     highres_viewport = $"HighresViewport"
 
-    lowres_viewport.size = settings.desired_res
-    # TODO(calco): Just make this a getter at this point
-    if settings.enable_smooth_pixelart_camera:
-        lowres_viewport.size += settings.smooth_pixelart_camera_pad * 2
+    lowres_viewport.size = settings.desired_res + Vector2i(2, 2) # padding for camera
+
+    settings.on_pixel_offset_changed.connect(_update_pixel_offset)
 
     # TODO(calco): Compute the number of autoloads at runtime
     var root = get_tree().get_root()
@@ -38,27 +36,14 @@ func _enter_tree() -> void:
     # in order to ensure proper high res scaling
 
     setup_viewport_scale()
-    # get_tree().get_root().size_changed.connect(_handle_window_size_change)
     get_viewport().size_changed.connect(_handle_viewport_size_change)
 
-func _process(_delta: float) -> void:
-    if settings.enable_smooth_pixelart_camera:
-        # print(settings._curr_pixel_offset)
-        camera.global_position = cam_base_pos - settings._curr_pixel_offset * 5
-    # pass
+func _update_pixel_offset(pixel_offset: Vector2) -> void:
+    box.material.set_shader_parameter(&"u_cam_offset", pixel_offset)
 
 func setup_viewport_scale() -> void:
-    cam_base_pos = get_viewport().get_visible_rect().size / 2.0
-    camera.global_position = cam_base_pos
-    print(cam_base_pos)
-
-    # TODO(calco): Figure out how to scale without breaking everything.
-    var box = lowres_viewport.get_parent()
     box.scale = get_viewport().get_visible_rect().size / Vector2(settings.desired_res)
-    # TODO(calco): This should allow changing dynamically, whenever I want to
-    if settings.enable_smooth_pixelart_camera:
-        box.global_position -= Vector2(settings.smooth_pixelart_camera_pad) * 5
-    # print(box.global_position)
+    box.global_position -= box.scale
 
 func setup_scene_from_node(scene: Node, mode: SceneLoadMode) -> void:
     # TODO(calco): atm `_get_first_child_with_group` can return ANY child.

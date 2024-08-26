@@ -32,7 +32,7 @@ tudyslaier calcopod
 - [x] Lighting system
 
 (impromptuu)
-- [ ] Smooth pixelart camera
+- [x] Smooth pixelart camera
 
 - [ ] Lights Fix:
   - [ ] Not working outside of camera bounds (aka render to a larget texture and then overlay that)

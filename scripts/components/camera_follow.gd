@@ -6,7 +6,6 @@ extends Node2D
 var actual_pos = Vector2.ZERO
 
 func _enter_tree() -> void:
-    process_priority = Game.ProcessList.HDWorld - 1
     actual_pos = global_position
 
 func _process(delta: float) -> void:
