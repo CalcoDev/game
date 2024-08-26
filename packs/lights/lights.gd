@@ -40,6 +40,8 @@ func _enter_tree() -> void:
 	_setup_render_passes()
 	call_deferred("_setup_scene")
 
+	Game.on_post_process.connect(_post_process)
+
 var time_of_day: float = 0.0
 var sanglesign = 1.0
 func _process(delta: float) -> void:
@@ -58,14 +60,15 @@ func _process(delta: float) -> void:
 		shadow_dir.x *= -1.0
 	var elevation = 1.0 - max(sin(sun_angle), 0.0)
 	var shadow_length = lerp(min_shadow_length, max_shadow_length, elevation)
-
-	scene_camera.global_position = actual_scene_camera.global_position
-	for sync in sync_refs:
-		sync.update()
 	
 	# NOTE(calco): Maybe updating after makes better order or sth
 	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_light_dir", shadow_dir)
 	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_distance", shadow_length)
+
+func _post_process(_delta: float) -> void:
+	scene_camera.global_position = actual_scene_camera.global_position
+	for sync in sync_refs:
+		sync.update()
 
 func _setup_render_passes() -> void:
 	scene_viewport.size = get_viewport().get_visible_rect().size * 2

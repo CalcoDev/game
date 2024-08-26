@@ -1,22 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbolod7ldfpx7"]
+[gd_scene load_steps=9 format=3 uid="uid://cbolod7ldfpx7"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_axxfn"]
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="2_t0rq7"]
-
-[sub_resource type="Animation" id="Animation_rb121"]
-resource_name = "fade_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1.27456, 5.27803),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
+[ext_resource type="Script" path="res://scripts/pre_process.gd" id="3_8qipo"]
+[ext_resource type="Script" path="res://scripts/post_process.gd" id="4_khlfx"]
 
 [sub_resource type="Animation" id="Animation_bdgqp"]
 length = 0.001
@@ -31,6 +18,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rb121"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.27456, 5.27803),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_n1ceh"]
@@ -77,3 +79,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
+
+[node name="PreProcess" type="Node" parent="."]
+script = ExtResource("3_8qipo")
+
+[node name="PostProcess" type="Node" parent="."]
+script = ExtResource("4_khlfx")

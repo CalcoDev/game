@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=17 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bmi4eyorjdvj3" path="res://packs/lights/house_occluder.png" id="7_sex43"]
 [ext_resource type="Texture2D" uid="uid://cqgxxk81epdm4" path="res://packs/lights/pixel.png" id="7_v4bkp"]
 [ext_resource type="Shader" path="res://packs/lights/light_display.gdshader" id="8_xb06s"]
+[ext_resource type="Script" path="res://scripts/debug/oscilator.gd" id="11_tckrw"]
 
 [sub_resource type="Gradient" id="Gradient_dff55"]
 offsets = PackedFloat32Array(0, 0.25, 0.425, 0.5, 0.75, 0.925, 1)
@@ -133,6 +134,8 @@ actual_scene_camera = NodePath("../CameraFollow")
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
 size = Vector2i(640, 360)
 
 [node name="Camera2D" type="Camera2D" parent="HDWorld-LowRes/Lights/SceneViewport"]
@@ -168,6 +171,21 @@ color = Color(1, 1, 1, 0)
 modulate = Color(0, 0, 0, 1)
 position = Vector2(55, 60)
 texture = ExtResource("5_wa3ef")
+
+[node name="MovingBall" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(60, 209)
+texture = ExtResource("5_wa3ef")
+script = ExtResource("11_tckrw")
+amplitude = Vector2(50, 50)
+
+[node name="MovingBall2" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(136, 209)
+texture = ExtResource("5_wa3ef")
+script = ExtResource("11_tckrw")
+amplitude = Vector2(0, 80)
+freq = 0.5
 
 [node name="HouseOccluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
 modulate = Color(0, 0, 0, 1)

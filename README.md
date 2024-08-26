@@ -34,9 +34,13 @@ tudyslaier calcopod
 (impromptuu)
 - [x] Smooth pixelart camera
 
-- [ ] Lights Fix:
-  - [ ] Not working outside of camera bounds (aka render to a larget texture and then overlay that)
-  - [ ] If camera moves, the scene viewport does not...
+- [x] Lights Fix:
+  - [x] Not working outside of camera bounds (aka render to a larget texture and then overlay that)
+  - [x] If camera moves, the scene viewport does not...
+
+- [ ] Lights height
+
+- [ ] HDWorld, add permanent high res UI stuff (for game scene transitions)
 
 
 - [ ] 1 - Player walking simulator

@@ -1,17 +1,23 @@
 extends Node
 
-signal on_pre_process()
+signal on_pre_process(float)
+signal on_post_process(float)
 enum ProcessList {
+	PreProcess = -999,
 	Game = -100,
 	Lights = -10,
 	HDWorld = -5,
 	Default = 0,
+	PostProcess = 999
 }
 
 var _dbg_instance_id = -1
 
 func _enter_tree() -> void:
 	process_priority = ProcessList.Game
+	$"PreProcess".process_priority = ProcessList.PreProcess
+	$"PostProcess".process_priority = ProcessList.PostProcess
+	
 	var args = Array(OS.get_cmdline_args())
 	if args.size() == 2:
 		_dbg_instance_id = int(args[1])

@@ -12,4 +12,5 @@ func _enter_tree() -> void:
 func _process(delta: float) -> void:
 	actual_pos = actual_pos.lerp(target.global_position, delta * speed * 2.0)
 	global_position = actual_pos.round()
+	# global_position = actual_pos
 	get_child(0).update_subpixel_position(actual_pos)
