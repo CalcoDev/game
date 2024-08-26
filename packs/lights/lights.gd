@@ -5,16 +5,7 @@ extends Node
 const OCCLUDER_GROUP: StringName = &"lights_occluder"
 
 @export var sky_modulate: CanvasModulate = null
-# @export var sky_day_col: Color = Color.WHITE
-# @export var sky_night_col: Color = Color.hex(0x40436e)
-
 @export var sky_colors: Gradient
-# @export var sky_morning_col: Color = Color.WHITE
-# @export var sky_midday_col: Color = Color.WHITE
-# @export var sky_sunset_col: Color = Color.WHITE
-# @export var sky_night_col: Color = Color.WHITE
-# @export var sky_midnight_col: Color = Color.WHITE
-# @export var sky_dawn_col: Color = Color.WHITE
 
 # Set => outputs to custom thing. By default should be used as a get.
 @export var output_texture: TextureRect = null
@@ -25,8 +16,8 @@ const OCCLUDER_GROUP: StringName = &"lights_occluder"
 var sun_angle: float = PI
 
 var scene_viewport: SubViewport
-# var scene_camera: Camera2D
-@export var node_to_follow: Node2D = null
+var scene_camera: Camera2D
+@export var actual_scene_camera: Node2D = null
 
 var sync_refs: Array[ObjSync] = []
 class ObjSync extends Node2D:
@@ -44,7 +35,7 @@ class ObjSync extends Node2D:
 func _enter_tree() -> void:
 	process_priority = Game.ProcessList.Lights
 	scene_viewport = $"SceneViewport"
-	# scene_camera = $"SceneViewport/Camera2D"
+	scene_camera = $"SceneViewport/Camera2D"
 
 	_setup_render_passes()
 	call_deferred("_setup_scene")
@@ -67,12 +58,14 @@ func _process(delta: float) -> void:
 		shadow_dir.x *= -1.0
 	var elevation = 1.0 - max(sin(sun_angle), 0.0)
 	var shadow_length = lerp(min_shadow_length, max_shadow_length, elevation)
-	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_light_dir", shadow_dir)
-	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_distance", shadow_length)
 
-	# scene_camera.global_position = node_to_follow.global_position
+	scene_camera.global_position = actual_scene_camera.global_position
 	for sync in sync_refs:
 		sync.update()
+	
+	# NOTE(calco): Maybe updating after makes better order or sth
+	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_light_dir", shadow_dir)
+	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_distance", shadow_length)
 
 func _setup_render_passes() -> void:
 	scene_viewport.size = get_viewport().get_visible_rect().size * 2
@@ -97,9 +90,9 @@ func _setup_render_passes() -> void:
 	output_texture.size = shadow_pixels.size
 	output_texture.texture = shadow_pixels.get_texture()
 
-	# print(scene_viewport.size)
-	# print(shadow_pixels.size)
-	# print(output_texture.size)
+	print(scene_viewport.size)
+	print(shadow_pixels.size)
+	print(output_texture.size)
 
 func _setup_scene() -> void:
 	for occluder in _get_children_with_group(get_tree().root, OCCLUDER_GROUP):
