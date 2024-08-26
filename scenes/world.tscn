@@ -106,7 +106,7 @@ color = Color(0, 1, 0.132813, 1)
 [node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
 position = Vector2(309, 25)
 
-[node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("sky_modulate", "output_texture")]
+[node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("sky_modulate", "output_texture", "node_to_follow")]
 script = ExtResource("5_n18ro")
 sky_modulate = NodePath("../SkyModulate")
 sky_colors = SubResource("Gradient_dff55")
@@ -114,12 +114,15 @@ output_texture = NodePath("LightTexture")
 time_scale = 0.5
 min_shadow_length = 30.0
 max_shadow_length = 200.0
+node_to_follow = NodePath("../CameraFollow")
 
 [node name="SceneViewport" type="SubViewport" parent="HDWorld-LowRes/Lights"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(320, 180)
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+size = Vector2i(640, 360)
 
 [node name="RenderPasses" type="Node" parent="HDWorld-LowRes/Lights"]
 
@@ -127,7 +130,7 @@ size = Vector2i(320, 180)
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(320, 180)
+size = Vector2i(640, 360)
 
 [node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes/Lights/RenderPasses/ShadowPixelsPass"]
 material = SubResource("ShaderMaterial_kykxt")

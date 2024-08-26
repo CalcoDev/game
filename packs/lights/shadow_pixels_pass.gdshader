@@ -7,7 +7,7 @@ uniform vec2 u_light_dir = vec2(0.0);
 // uniform vec2 u_step_size = vec2(0.006, 0.011);
 uniform float u_distance = 20;
 
-const vec2 u_step_size = vec2(1.0 / 320.0 / 2.0, 1.0 / 180.0 / 2.0);
+const vec2 u_step_size = vec2(1.0 / 320.0 / 4.0, 1.0 / 180.0 / 4.0);
 
 float random (vec2 st) {
     return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
@@ -57,6 +57,7 @@ void fragment() {
     
     
     COLOR = vec4(u_shadow_color.xyz, 1.0 * float(hit) * float(tries != 0.0) * float(dithering > 0.05));
+    //COLOR = vec4(UV.xy, 0.0, 1.0);
     
     //COLOR = vec4(UV.x, UV.y, 0.0, 1.0);
     //COLOR = vec4(1.0, 1.0, 1.0, 1.0);
