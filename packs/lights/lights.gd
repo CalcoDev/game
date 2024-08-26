@@ -49,7 +49,9 @@ func _process(delta: float) -> void:
 	if time_of_day > 2.0:
 		time_of_day = 0.0
 	
-	sky_modulate.color = sky_colors.sample(time_of_day / 2.0)
+	var t0 = (time_of_day - 0.15) / 2.0
+	t0 = t0 - floor(t0)
+	sky_modulate.color = sky_colors.sample(t0)
 	
 	var t = time_of_day
 	if t > 1.0:

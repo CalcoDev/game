@@ -118,14 +118,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
-position = Vector2(309, 25)
+position = Vector2(95, 254)
 
 [node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("sky_modulate", "output_texture", "actual_scene_camera")]
 script = ExtResource("5_n18ro")
 sky_modulate = NodePath("../SkyModulate")
 sky_colors = SubResource("Gradient_dff55")
 output_texture = NodePath("../CameraFollow/LightsTexture")
-time_scale = 0.5
 min_shadow_length = 30.0
 max_shadow_length = 200.0
 actual_scene_camera = NodePath("../CameraFollow")
