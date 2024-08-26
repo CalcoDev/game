@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=15 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
@@ -10,12 +10,20 @@
 [ext_resource type="Shader" path="res://packs/lights/shadow_pixels_pass.gdshader" id="6_hx7cs"]
 [ext_resource type="Texture2D" uid="uid://bmi4eyorjdvj3" path="res://packs/lights/house_occluder.png" id="7_sex43"]
 [ext_resource type="Texture2D" uid="uid://cqgxxk81epdm4" path="res://packs/lights/pixel.png" id="7_v4bkp"]
+[ext_resource type="Shader" path="res://packs/lights/light_display.gdshader" id="8_xb06s"]
+
+[sub_resource type="Gradient" id="Gradient_dff55"]
+offsets = PackedFloat32Array(0, 0.25, 0.425, 0.5, 0.75, 0.925, 1)
+colors = PackedColorArray(1, 0.780392, 0.780392, 1, 0.910156, 0.757278, 0.821774, 1, 0.917647, 0.654902, 0.764706, 1, 0.180392, 0.172549, 0.384314, 1, 0.315555, 0.300568, 0.785156, 1, 0.505383, 0.367432, 0.671875, 1, 1, 0.780392, 0.780392, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kykxt"]
 shader = ExtResource("6_hx7cs")
 shader_parameter/u_shadow_color = Color(0.32549, 0.313726, 0.227451, 1)
 shader_parameter/u_light_dir = Vector2(0, 0)
 shader_parameter/u_distance = 0.05
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_77uoh"]
+shader = ExtResource("8_xb06s")
 
 [node name="World" type="Node2D"]
 
@@ -39,9 +47,12 @@ offset_bottom = 90.0
 [node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
 position = Vector2(309, 25)
 
-[node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("_dbg_display_tex")]
+[node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("sky_modulate", "output_texture")]
 script = ExtResource("5_n18ro")
-_dbg_display_tex = NodePath("../TextureRect")
+sky_modulate = NodePath("../SkyModulate")
+sky_colors = SubResource("Gradient_dff55")
+output_texture = NodePath("LightTexture")
+time_scale = 10.0
 min_shadow_length = 30.0
 max_shadow_length = 200.0
 
@@ -65,6 +76,20 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("7_v4bkp")
 
+[node name="LightTexture" type="TextureRect" parent="HDWorld-LowRes/Lights"]
+offset_right = 1.0
+offset_bottom = 1.0
+texture = ExtResource("7_v4bkp")
+
+[node name="SkyModulate" type="CanvasModulate" parent="HDWorld-LowRes"]
+color = Color(0.107779, 0.0960083, 0.472656, 1)
+
+[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes"]
+material = SubResource("ShaderMaterial_77uoh")
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(1, 1, 1, 0)
+
 [node name="Occluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
 modulate = Color(0, 0, 0, 1)
 position = Vector2(55, 60)
@@ -81,11 +106,6 @@ centered = false
 
 [node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/HouseOccluder"]
 polygon = PackedVector2Array(0, 57, 4, 61, 62, 62, 69, 57, 62, 1, 8, 0, 4, 6)
-
-[node name="TextureRect" type="TextureRect" parent="HDWorld-LowRes"]
-offset_right = 1.0
-offset_bottom = 1.0
-texture = ExtResource("7_v4bkp")
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("5_mxkng")]
 
