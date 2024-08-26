@@ -4,6 +4,7 @@ signal on_pre_process()
 enum ProcessList {
 	Game = -100,
 	Lights = -10,
+	HDWorld = -5,
 	Default = 0,
 }
 

@@ -5,3 +5,5 @@
 [resource]
 script = ExtResource("1_4175r")
 desired_res = Vector2i(320, 180)
+enable_smooth_pixelart_camera = true
+smooth_pixelart_camera_pad = Vector2i(1, 1)

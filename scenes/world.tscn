@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=16 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
 [ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_gox5e"]
 [ext_resource type="PackedScene" uid="uid://utaas26bvkau" path="res://scenes/entities/player.tscn" id="4_jqtip"]
+[ext_resource type="Script" path="res://scripts/components/camera_follow.gd" id="4_rbqh3"]
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="5_mxkng"]
 [ext_resource type="Script" path="res://packs/lights/lights.gd" id="5_n18ro"]
 [ext_resource type="Texture2D" uid="uid://g64yc7w28kit" path="res://packs/lights/emitter.png" id="5_wa3ef"]
@@ -29,20 +30,78 @@ shader = ExtResource("8_xb06s")
 
 [node name="HDWorld-LowRes" parent="." instance=ExtResource("1_i3fgo")]
 
-[node name="HDWorldCamera" type="Camera2D" parent="HDWorld-LowRes"]
-position = Vector2(160, 90)
+[node name="CameraFollow" type="Node2D" parent="HDWorld-LowRes" node_paths=PackedStringArray("target")]
+position = Vector2(161, 91)
+script = ExtResource("4_rbqh3")
+target = NodePath("../Player")
+
+[node name="HDWorldCamera" type="Camera2D" parent="HDWorld-LowRes/CameraFollow"]
+process_priority = -5
+position = Vector2(-1, -1)
 editor_draw_screen = false
 script = ExtResource("2_4eanh")
 settings = ExtResource("3_gox5e")
+draw_debug = false
+autoupdate_subpixel_position = false
 
-[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes/HDWorldCamera"]
-modulate = Color(0.513726, 0.423529, 0.243137, 1)
+[node name="Full" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
+z_index = -100
+z_as_relative = false
+offset_left = -161.0
+offset_top = -91.0
+offset_right = 161.0
+offset_bottom = 91.0
+color = Color(0.513726, 0.423529, 0.243137, 1)
+
+[node name="Middle" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
+visible = false
 z_index = -100
 z_as_relative = false
 offset_left = -160.0
 offset_top = -90.0
 offset_right = 160.0
 offset_bottom = 90.0
+color = Color(0.513726, 0.423529, 0.243137, 1)
+
+[node name="TopEdge" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
+visible = false
+z_index = -100
+z_as_relative = false
+offset_left = -161.0
+offset_top = -91.0
+offset_right = 161.0
+offset_bottom = -90.0
+color = Color(0, 1, 0.132813, 1)
+
+[node name="BottomEdge" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
+visible = false
+z_index = -100
+z_as_relative = false
+offset_left = -161.0
+offset_top = 90.0
+offset_right = 161.0
+offset_bottom = 91.0
+color = Color(0, 1, 0.132813, 1)
+
+[node name="LeftEdge" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
+visible = false
+z_index = -100
+z_as_relative = false
+offset_left = -161.0
+offset_top = -90.0
+offset_right = -160.0
+offset_bottom = 90.0
+color = Color(0, 1, 0.132813, 1)
+
+[node name="RightEdge" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
+visible = false
+z_index = -100
+z_as_relative = false
+offset_left = 160.0
+offset_top = -90.0
+offset_right = 161.0
+offset_bottom = 90.0
+color = Color(0, 1, 0.132813, 1)
 
 [node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
 position = Vector2(309, 25)
@@ -52,7 +111,7 @@ script = ExtResource("5_n18ro")
 sky_modulate = NodePath("../SkyModulate")
 sky_colors = SubResource("Gradient_dff55")
 output_texture = NodePath("LightTexture")
-time_scale = 10.0
+time_scale = 0.5
 min_shadow_length = 30.0
 max_shadow_length = 200.0
 
@@ -82,7 +141,6 @@ offset_bottom = 1.0
 texture = ExtResource("7_v4bkp")
 
 [node name="SkyModulate" type="CanvasModulate" parent="HDWorld-LowRes"]
-color = Color(0.107779, 0.0960083, 0.472656, 1)
 
 [node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes"]
 material = SubResource("ShaderMaterial_77uoh")
@@ -95,17 +153,11 @@ modulate = Color(0, 0, 0, 1)
 position = Vector2(55, 60)
 texture = ExtResource("5_wa3ef")
 
-[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/Occluder"]
-polygon = PackedVector2Array(-8, 0, -5, 5, 0, 8, 5, 5, 8, 0, 5, -5, 0, -8, -5, -5)
-
 [node name="HouseOccluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
 modulate = Color(0, 0, 0, 1)
 position = Vector2(162, 81)
 texture = ExtResource("7_sex43")
 centered = false
-
-[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/HouseOccluder"]
-polygon = PackedVector2Array(0, 57, 4, 61, 62, 62, 69, 57, 62, 1, 8, 0, 4, 6)
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("5_mxkng")]
 
@@ -121,5 +173,3 @@ theme_override_font_sizes/font_size = 64
 text = "some ui"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[editable path="HDWorld-LowRes/Player"]

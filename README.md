@@ -27,7 +27,18 @@ tudyslaier calcopod
 ### 25.08.2024:
 - [x] Main menu screen
 - [x] Scene transitions (with adequate HDWorld setup)
-- [ ] Lighting system
+
+### 26.08.2024:
+- [x] Lighting system
+
+(impromptuu)
+- [ ] Smooth pixelart camera
+
+- [ ] Lights Fix:
+  - [ ] Not working outside of camera bounds (aka render to a larget texture and then overlay that)
+  - [ ] If camera moves, the scene viewport does not...
+
+
 - [ ] 1 - Player walking simulator
   - [ ] Wheat field (display + physics)
   - [ ] House
@@ -36,5 +47,3 @@ tudyslaier calcopod
       - [ ] ???
 - [ ] Basic save / load system (character and world files)
 - [ ] Multiplayer stuff
-
-### 26.08.2024:
