@@ -61,7 +61,7 @@ _data = {
 [node name="Game" type="Node"]
 script = ExtResource("1_axxfn")
 
-[node name="HDWorld-HighRes" parent="." instance=ExtResource("2_t0rq7")]
+[node name="HDWorld-HighRes" parent="." groups=["hdworld_permanent"] instance=ExtResource("2_t0rq7")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="HDWorld-HighRes"]
 layer = 99

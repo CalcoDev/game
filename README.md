@@ -38,10 +38,15 @@ tudyslaier calcopod
   - [x] Not working outside of camera bounds (aka render to a larget texture and then overlay that)
   - [x] If camera moves, the scene viewport does not...
 
-- [ ] Lights height
 
-- [ ] HDWorld, add permanent high res UI stuff (for game scene transitions)
+### 27.08.2024:
+~~- [ ] Lights height~~ (kinda did it, but didn't work as expected, so I abandoned it and will use a work around)
 
+- [x] HDWorld:
+  - [x] Add permanent high res UI stuff (for game scene transitions)
+  - [x] Make association between objects and their parents, and listen to free() signals (allow dynamically spawned objects to have their own low-res or high-res)
+
+- [ ] ACTUALLY TEST THOSE FEATURES
 
 - [ ] 1 - Player walking simulator
   - [ ] Wheat field (display + physics)

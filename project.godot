@@ -42,6 +42,8 @@ hdworld_lowres=""
 hdworld_highres=""
 lights_occluder=""
 lights_emitter=""
+hdworld_permanent=""
+hdworld_autohandle=""
 
 [input]
 
