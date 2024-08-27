@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=16 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
@@ -9,10 +9,9 @@
 [ext_resource type="Script" path="res://packs/lights/lights.gd" id="5_n18ro"]
 [ext_resource type="Texture2D" uid="uid://g64yc7w28kit" path="res://packs/lights/emitter.png" id="5_wa3ef"]
 [ext_resource type="Shader" path="res://packs/lights/shadow_pixels_pass.gdshader" id="6_hx7cs"]
-[ext_resource type="Texture2D" uid="uid://bmi4eyorjdvj3" path="res://packs/lights/house_occluder.png" id="7_sex43"]
 [ext_resource type="Texture2D" uid="uid://cqgxxk81epdm4" path="res://packs/lights/pixel.png" id="7_v4bkp"]
-[ext_resource type="Shader" path="res://packs/lights/light_display.gdshader" id="8_xb06s"]
-[ext_resource type="Script" path="res://scripts/debug/oscilator.gd" id="11_tckrw"]
+[ext_resource type="Material" uid="uid://cyuya2rpf4awc" path="res://packs/lights/occluder_shader.tres" id="9_r4ams"]
+[ext_resource type="Script" path="res://packs/lights/occluder.gd" id="10_dgwbr"]
 
 [sub_resource type="Gradient" id="Gradient_dff55"]
 offsets = PackedFloat32Array(0, 0.25, 0.425, 0.5, 0.75, 0.925, 1)
@@ -21,11 +20,14 @@ colors = PackedColorArray(1, 0.780392, 0.780392, 1, 0.910156, 0.757278, 0.821774
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kykxt"]
 shader = ExtResource("6_hx7cs")
 shader_parameter/u_shadow_color = Color(0.32549, 0.313726, 0.227451, 1)
-shader_parameter/u_light_dir = Vector2(0, 0)
-shader_parameter/u_distance = 0.05
+shader_parameter/u_light_dir = Vector3(1, 1, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_77uoh"]
-shader = ExtResource("8_xb06s")
+[sub_resource type="Environment" id="Environment_bs0l0"]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 1.88
+glow_strength = 1.1
+glow_bloom = 0.32
 
 [node name="World" type="Node2D"]
 
@@ -118,13 +120,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
-position = Vector2(95, 254)
+position = Vector2(115, 130)
 
 [node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("sky_modulate", "output_texture", "actual_scene_camera")]
 script = ExtResource("5_n18ro")
 sky_modulate = NodePath("../SkyModulate")
 sky_colors = SubResource("Gradient_dff55")
 output_texture = NodePath("../CameraFollow/LightsTexture")
+time_scale = 5.0
 min_shadow_length = 30.0
 max_shadow_length = 200.0
 actual_scene_camera = NodePath("../CameraFollow")
@@ -153,51 +156,19 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("7_v4bkp")
 
-[node name="LightTexture" type="TextureRect" parent="HDWorld-LowRes/Lights"]
-offset_right = 1.0
-offset_bottom = 1.0
-texture = ExtResource("7_v4bkp")
-
 [node name="SkyModulate" type="CanvasModulate" parent="HDWorld-LowRes"]
-
-[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes"]
-material = SubResource("ShaderMaterial_77uoh")
-offset_right = 320.0
-offset_bottom = 180.0
-color = Color(1, 1, 1, 0)
 
 [node name="Occluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(55, 60)
+material = ExtResource("9_r4ams")
+position = Vector2(80, 112)
 texture = ExtResource("5_wa3ef")
+script = ExtResource("10_dgwbr")
+height = 100.0
+hover = 50.0
 
-[node name="MovingBall" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(60, 209)
-texture = ExtResource("5_wa3ef")
-script = ExtResource("11_tckrw")
-amplitude = Vector2(50, 50)
-
-[node name="MovingBall2" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(136, 209)
-texture = ExtResource("5_wa3ef")
-script = ExtResource("11_tckrw")
-amplitude = Vector2(0, 80)
-freq = 0.5
-
-[node name="HouseOccluder" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(162, 81)
-texture = ExtResource("7_sex43")
-centered = false
-
-[node name="HouseOccluder2" type="Sprite2D" parent="HDWorld-LowRes" groups=["lights_occluder"]]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-72, 254)
-scale = Vector2(0.217391, 9.46774)
-texture = ExtResource("7_sex43")
-centered = false
+[node name="WorldEnvironment" type="WorldEnvironment" parent="HDWorld-LowRes"]
+environment = SubResource("Environment_bs0l0")
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("5_mxkng")]
 

@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cyuya2rpf4awc"]
+
+[ext_resource type="Shader" path="res://packs/lights/occluder_height_render.gdshader" id="1_yk0bk"]
+
+[resource]
+shader = ExtResource("1_yk0bk")
+shader_parameter/u_height = 0.0

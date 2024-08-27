@@ -19,7 +19,7 @@ centered = false
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_g2jpt")
 
-[node name="Occluder" type="Sprite2D" parent="." groups=["lights_occluder"]]
+[node name="Occluder" type="Sprite2D" parent="."]
 show_behind_parent = true
 position = Vector2(-5, -6)
 scale = Vector2(10, 8)
