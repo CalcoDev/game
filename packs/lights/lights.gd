@@ -4,10 +4,6 @@ extends Node
 # const EMITTER_GROUP: StringName = &"lights_emitter"
 const OCCLUDER_GROUP: StringName = &"lights_occluder"
 
-const MAX_HEIGHT: float = 500.0
-
-@export var occluder_material: ShaderMaterial = null
-
 @export var sky_modulate: CanvasModulate = null
 @export var sky_colors: Gradient
 
@@ -65,14 +61,11 @@ func _process(delta: float) -> void:
 	if time_of_day > 1.0:
 		shadow_dir.x *= -1.0
 	var elevation = 1.0 - max(sin(sun_angle), 0.0)
-	# var shadow_length = lerp(min_shadow_length, max_shadow_length, elevation)
+	var shadow_length = lerp(min_shadow_length, max_shadow_length, elevation)
 	
-	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_light_dir", Vector3(-1, 1, elevation * 20.0 / MAX_HEIGHT))
-	# print()
 	# NOTE(calco): Maybe updating after makes better order or sth
-	# $"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_light_dir", Vector3(shadow_dir.x, shadow_dir.y, 1 / MAX_HEIGHT))
-	# $"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_max_height", 500.0)
-	# $"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_distance", shadow_length)
+	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_light_dir", shadow_dir)
+	$"RenderPasses/ShadowPixelsPass/TextureRect".material.set_shader_parameter(&"u_distance", shadow_length)
 
 func _post_process(_delta: float) -> void:
 	scene_camera.global_position = actual_scene_camera.global_position
@@ -80,8 +73,6 @@ func _post_process(_delta: float) -> void:
 		sync.update()
 
 func _setup_render_passes() -> void:
-	# TODO(calco): Slightly scuffed because now that may or may not be offset by 1-2 pixels
-	# TODO(calco): Adjust position dynamically
 	scene_viewport.size = get_viewport().get_visible_rect().size * 2
 	scene_viewport.disable_3d = true
 	scene_viewport.transparent_bg = true
@@ -98,13 +89,15 @@ func _setup_render_passes() -> void:
 	shadow_pixels_tex.size = scene_viewport.size
 
 	shadow_pixels_mat.set_shader_parameter(&"u_scene_tex", scene_viewport.get_texture())
-	
-	shadow_pixels_mat.set_shader_parameter(&"u_light_dir", Vector3(-1, 1, 1 / MAX_HEIGHT))
-
-	# shadow_pixels_mat.set_shader_parameter(&"u_distance", 1.0 / 20.0)
+	shadow_pixels_mat.set_shader_parameter(&"u_light_dir", Vector2(-1, 1))
+	shadow_pixels_mat.set_shader_parameter(&"u_distance", 1.0 / 20.0)
 
 	output_texture.size = shadow_pixels.size
 	output_texture.texture = shadow_pixels.get_texture()
+
+	print(scene_viewport.size)
+	print(shadow_pixels.size)
+	print(output_texture.size)
 
 func _setup_scene() -> void:
 	for occluder in _get_children_with_group(get_tree().root, OCCLUDER_GROUP):
@@ -112,9 +105,6 @@ func _setup_scene() -> void:
 			var cp = occluder.duplicate(0)
 			scene_viewport.add_child(cp)
 			sync_refs.append(ObjSync.new(occluder, cp))
-			# occluder.visible = false
-		# if occluder is Occluder:
-		# 	occluder.material = occluder_material
 
 func _get_children_with_group(node: Node, grp: StringName) -> Array[Node]:
 	var q: Array[Node] = [node]
