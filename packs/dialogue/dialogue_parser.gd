@@ -48,7 +48,6 @@ class Token:
         var value_arr = Token._get_param_list(value_str)
         match type_str:
             "speaker":
-                print("TOK: ", value_arr, " | ", value_str)
                 var speaker: Speaker = null
                 if len(value_arr) > 0:
                     speaker = DialogueManager.speakers_register[value_arr[0]]

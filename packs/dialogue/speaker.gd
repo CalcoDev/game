@@ -1,4 +1,5 @@
 class_name Speaker
 extends Resource
 
-@export var name: String
+@export var id: StringName
+@export var name: StringName

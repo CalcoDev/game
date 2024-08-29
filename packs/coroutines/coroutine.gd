@@ -57,7 +57,11 @@ func call_to_await():
 	else:
 		await to_await.call()
 
-func first_of(awaitables: Array[Callable], stop_on_finish: bool) -> Variant:
+func single(awaitable: Callable) -> void:
+	to_await = awaitable
+	await run()
+
+func first_of(awaitables: Array[Callable], stop_on_finish: bool) -> int:
 	var coroutines: Array[Coroutine] = []
 	
 	var finished: Array[bool] = []

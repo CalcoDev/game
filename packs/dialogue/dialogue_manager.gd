@@ -15,6 +15,9 @@ static var speakers_register: Dictionary = {}:
         assert(speakers_init, "ERROR: Tried accessing speakers register without it being initialised.")
         return speakers_register
 
+# Stuff to do with displaying dialogue
+var speed: float = 1.0
+
 func _enter_tree() -> void:if not speakers_init:
     speakers_init = true
     var dir_q = []
@@ -34,29 +37,24 @@ func _enter_tree() -> void:if not speakers_init:
                 continue
             var res = ResourceLoader.load(full_path)
             if res is Speaker:
-                speakers_register[res.name] = res
+                speakers_register[res.id] = res
             file_path = dir.get_next()
 
 func _ready() -> void:
-    # var d = Dialogue.from_file(_dbg_dialogue)
-    # play_dialogue(d)
-
-
-    # var test = (func():
-    #     print("asdasd")).bind(Coroutine.BIND_CTX)
-    # print(test.get_bound_arguments())
-
-    # var test = [false, false, false]
-    # var a = func(idx: int):
-    #     test[idx] = true
-    # for i in 3:
-    #     var b = func():
-    #         a.call(i)
-    #     b.call()
-    # print(test)
+    var d = Dialogue.from_file(_dbg_dialogue)
+    play_dialogue(d)
+    # print(speakers_register)
+    # print(speakers_register["milkman"])
     pass
 
 func play_dialogue(dialogue: Dialogue) -> void:
+    # display_box()
+    await Coroutine.new().single(play_dialogue_coro.bind(dialogue))
+    # hide_box()
+    pass
+
+# TODO(calco): Somehow communicate canncelation, to hide box
+func play_dialogue_coro(ctx: Coroutine.Ctx, dialogue: Dialogue) -> void:
     dialogue.restart_tokenizer()
 
     dialogue_box_lbl.text = dialogue.get_string_till_nextpage()
@@ -68,7 +66,8 @@ func play_dialogue(dialogue: Dialogue) -> void:
     while true:
         if wait_frame:
             await Game.on_pre_process
-            # TODO(calco): Check if should stop
+            if ctx.cancelled:
+                return
         token = dialogue.get_next_token()
         wait_frame = false
         match token.type:
@@ -77,15 +76,15 @@ func play_dialogue(dialogue: Dialogue) -> void:
                 # current_speaker = token.value
                 pass
             Dialogue.Token.SPEED:
-                # speed = token.value
-                pass
+                speed = token.value
             Dialogue.Token.WAIT:
                 await get_tree().create_timer(token.value).timeout
-                # TODO(calco): Check if should stop
-                # if not coro.should_cont:
-                #     return
+                if ctx.cancelled:
+                    return
             Dialogue.Token.NEWPAGE:
-                await await_player_input("DIALOGUE_NEXT")
+                await await_player_input("DIA_NEXT")
+                if ctx.cancelled:
+                    return
                 dialogue_box_lbl.text = dialogue.get_string_till_nextpage()
                 dialogue_box_lbl.visible_characters = 0
                 wait_frame = true
@@ -95,36 +94,43 @@ func play_dialogue(dialogue: Dialogue) -> void:
                     dialogue_box_lbl.visible_characters += len(token.value)
                     continue
 
-                # var c1 = func():
-                #     await await_player_input("DIA_NEXT")
-
-                # var ret = await Coro.first_of([play_dialogue_page_coro, [await_player_input, "DIALOGUE_SKIP", Coro.NO_CTX]], false, true)
-                # text_display.visible_characters = len(text_display.text)
-                # if ret.to_await == play_dialogue_page_coro:
-                #     wait_frame = true
-                # else:
-                #     skipped_prev_string = true
-                pass
+                var idx = await Coroutine.new().first_of([
+                    await_player_input.bind("DIA_NEXT"), 
+                    play_dialogue_page_coro
+                ], true)
+                if ctx.cancelled:
+                    return
+                
+                if idx == 0:
+                    wait_frame = true
+                else:
+                    skipped_prev_string = true
             Dialogue.Token.NEWLINE:
-                # text_display.visible_characters += 1
-                pass
+                dialogue_box_lbl.visible_characters += 1
             Dialogue.Token.EOF:
-                # await await_player_input("DIALOGUE_NEXT")
+                await await_player_input("DIA_NEXT")
+                if ctx.cancelled:
+                    return
                 break
             Dialogue.Token.UNKNOWN:
                 push_warning("WARNING: Dialogue Manager encountered a token it didn't know how to handle! Skipping over it ...")
+
+func play_dialogue_page_coro(ctx: Coroutine.Ctx) -> void:
+    var idx: float = 0.0
+    var curr_char: float = 0.0
+    while idx < len(dialogue_box_lbl.text):
+        await Game.on_pre_process
+        if ctx.cancelled:
+            return
+        var tchar: int = mini(floori(idx + speed * get_process_delta_time()), len(dialogue_box_lbl.text))
+        if curr_char != tchar:
+            var val = dialogue_box_lbl.text.substr(int(curr_char), tchar - int(curr_char))
+            dialogue_box_lbl.visible_characters += len(val)
+            curr_char = tchar
+        idx += speed * get_process_delta_time()
 
 func await_player_input(action: String) -> void:
     while true:
         await Game.on_pre_process
         if Input.is_action_just_pressed(action):
             break
-
-
-
-
-
-
-
-
-

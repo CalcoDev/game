@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://1f7t5j8tr36n"]
+[gd_scene load_steps=8 format=3 uid="uid://1f7t5j8tr36n"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_u67pn"]
 [ext_resource type="Script" path="res://packs/dialogue/dialogue_manager.gd" id="1_ygkma"]
@@ -6,11 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="3_i43xu"]
 [ext_resource type="Texture2D" uid="uid://rjjtffsw8s1o" path="res://art/dialogue/milkman_grey_box.png" id="3_sfncd"]
 [ext_resource type="Texture2D" uid="uid://xjonko5jk7db" path="res://art/dialogue/milkman_grey_marker.png" id="4_nyqsv"]
+[ext_resource type="FontFile" uid="uid://c61t4vvodesd8" path="res://resources/fonts/m3x6.ttf" id="5_dmc28"]
 
-[node name="DialogueManager" type="Node"]
+[node name="DialogueManager" type="Node" node_paths=PackedStringArray("dialogue_box", "dialogue_box_marker", "dialogue_box_lbl")]
 script = ExtResource("1_ygkma")
 speakers_dir = "res://resources/dialogue"
 _dbg_dialogue = "res://resources/debug_dialogue.txt"
+dialogue_box = NodePath("HDWorld-LowRes/DialogueBox/Box")
+dialogue_box_marker = NodePath("HDWorld-LowRes/DialogueBox/Box/Marker")
+dialogue_box_lbl = NodePath("HDWorld-LowRes/DialogueBox/Box/MarginContainer/RichTextLabel")
 
 [node name="HDWorld-LowRes" parent="." instance=ExtResource("1_u67pn")]
 
@@ -32,7 +36,8 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -21.0
-offset_right = 59.0
+offset_right = 56.0
+offset_bottom = 8.0
 grow_vertical = 0
 texture = ExtResource("3_sfncd")
 patch_margin_left = 2
@@ -40,11 +45,38 @@ patch_margin_top = 2
 patch_margin_right = 2
 patch_margin_bottom = 2
 
-[node name="Marker" type="TextureRect" parent="HDWorld-LowRes/DialogueBox"]
+[node name="MarginContainer" type="MarginContainer" parent="HDWorld-LowRes/DialogueBox/Box"]
 layout_mode = 1
-offset_top = -2.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HDWorld-LowRes/DialogueBox/Box/MarginContainer"]
+layout_mode = 2
+theme_override_constants/line_separation = -4
+theme_override_fonts/normal_font = ExtResource("5_dmc28")
+bbcode_enabled = true
+text = "minge de foc
+minge de foc
+eu sunt bob"
+scroll_active = false
+autowrap_mode = 2
+
+[node name="Marker" type="TextureRect" parent="HDWorld-LowRes/DialogueBox/Box"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
 offset_right = 4.0
-offset_bottom = 6.0
+offset_bottom = 7.0
+grow_vertical = 0
 texture = ExtResource("4_nyqsv")
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("3_i43xu")]

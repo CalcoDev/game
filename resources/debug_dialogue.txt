@@ -1,4 +1,4 @@
-[Speaker Milkman]
+[Speaker milkman]
 [Speed 10]
 
 Minge de foc,[n]

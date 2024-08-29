@@ -35,6 +35,10 @@ func _enter_tree() -> void:
     highres_viewport = $"HighresViewport"
 
     lowres_viewport.size = settings.desired_res + Vector2i(2, 2) # padding for camera
+    # lowres_viewport.size = settings.desired_res
+
+    # TODO(calco): Update position accordingly
+    box.size = lowres_viewport.size
 
     settings.on_pixel_offset_changed.connect(_update_pixel_offset)
 

@@ -12,9 +12,6 @@ shader_parameter/u_cam_offset = Vector2(0, 0)
 script = ExtResource("1_u6uoe")
 settings = ExtResource("2_3sevf")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(800, 450)
-
 [node name="Box" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_cpq2b")
 anchors_preset = 15

@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_vqtf2")
-name = "Milkman Grey"
+id = &"milkman"
+name = &"Milkman Grey"
