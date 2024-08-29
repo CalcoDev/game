@@ -160,7 +160,7 @@ func get_next_token() -> Token:
         return Token.new(Token.EOF, "eof")
 
     # get the remaining text
-    text = text.substr(_c, -1)
+    var text = text.substr(_c, -1)
 
     # get the first [
     var t_start = text.find("[")
@@ -213,3 +213,4 @@ func get_next_token() -> Token:
     else:
         _c += t_end + 1
         return Token.custom_from_str(token)
+
