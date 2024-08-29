@@ -102,6 +102,8 @@ func unsetup_scene_from_node(scene: Node) -> bool:
     if not scene in ownership_dict:
         return false
     for node in ownership_dict[scene]:
+        if node == null:
+            continue
         # TODO(calco): Should these live longer?
         if not node.is_in_group("PERMA_GROUP"):
             node.process_mode = ProcessMode.PROCESS_MODE_DISABLED

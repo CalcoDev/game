@@ -30,7 +30,8 @@ void checkHit(vec2 pos, out bool hit) {
 
 void fragment() {
     vec2 p = UV;
-    float angle_offset = random(UV) * PI / 16.0;
+    float angle_offset = random(UV) * PI / 32.0;
+    //float angle_offset = 0.0;
     vec2 stp = rotate(-u_light_dir, vec2(0.0, 0.0), angle_offset) * u_step_size;
     
     float stplen = length(stp);
@@ -53,7 +54,8 @@ void fragment() {
     float dithering = dist_scale + noise; // Modulate dist_scale with noise
 
     // Clamp dithering to [0, 1] to avoid negative alpha values
-    dithering = clamp(dithering, 0.0, 1.0);
+    //dithering = clamp(dithering, 0.0, 1.0);
+    dithering = 1.0;
     
     
     COLOR = vec4(u_shadow_color.xyz, 1.0 * float(hit) * float(tries != 0.0) * float(dithering > 0.05));

@@ -8,7 +8,7 @@ uniform float u_emission_multi = 1.0;
 uniform int u_max_raymarch_steps = 128;
 uniform float u_dist_mod = 1.0;
 
-float random (vec2 st) 
+float random (vec2 st)
 {
     return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
 }
@@ -42,7 +42,7 @@ bool raymarch(vec2 origin, vec2 dir, float aspect, out vec2 hit_pos)
 }
 
 void get_surface(vec2 uv, out float emissive, out vec3 colour)
-{	
+{
     vec4 emissive_data = texture(u_scene_data, uv);
     emissive = max(emissive_data.r, max(emissive_data.g, emissive_data.b)) * u_emission_multi;
     colour = emissive_data.rgb;
@@ -52,7 +52,7 @@ void fragment()
 {
     float pixel_emis = 0.0;
     vec3 pixel_col = vec3(0.0);
-    
+
     // convert from uv aspect to world aspect.
     vec2 uv = UV;
     float aspect = SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x;
@@ -60,14 +60,14 @@ void fragment()
 
     float rand2pi = random(UV * vec2(TIME, -TIME)) * 2.0 * PI;
     float golden_angle = PI * 0.7639320225; // magic number that gives us a good ray distribution.
-    
+
     for(int i = 0; i < u_rays_per_pixel; i++)
     {
         // get our ray dir by taking the random angle and adding golden_angle * ray number.
         float cur_angle = rand2pi + golden_angle * float(i);
         vec2 ray_dir = normalize(vec2(cos(cur_angle), sin(cur_angle)));
         vec2 ray_origin = uv;
-    
+
         vec2 hit_pos;
         bool hit = raymarch(ray_origin, ray_dir, aspect, hit_pos);
         if(hit)
@@ -80,7 +80,7 @@ void fragment()
             pixel_col += mat_colour;
         }
     }
-    
+
     pixel_col /= pixel_emis;
     pixel_emis /= float(u_rays_per_pixel);
 

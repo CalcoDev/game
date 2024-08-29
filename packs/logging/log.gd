@@ -39,6 +39,7 @@ static func _output_string(s: String) -> void:
 	else:
 		log_file.store_line(s)
 
+
 const _lvl_arr = ["Trace", "Info", "Warn", "Error", "Fatal"]
 const _lvl_col = ["gray", "green", "yellow", "red", "magenta"]
 static func _get_message_format(level: Level, message: String) -> String:

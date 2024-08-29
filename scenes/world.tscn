@@ -1,8 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1n6ximmd05x8"]
+[gd_scene load_steps=16 format=3 uid="uid://d1n6ximmd05x8"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_i3fgo"]
-[ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_4eanh"]
-[ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_gox5e"]
+[ext_resource type="PackedScene" uid="uid://c8tf3155yxlub" path="res://packs/hd_world/hd_world_camera.tscn" id="3_aoimn"]
 [ext_resource type="PackedScene" uid="uid://utaas26bvkau" path="res://scenes/entities/player.tscn" id="4_jqtip"]
 [ext_resource type="Script" path="res://scripts/components/camera_follow.gd" id="4_rbqh3"]
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="5_mxkng"]
@@ -36,14 +35,7 @@ position = Vector2(161, 91)
 script = ExtResource("4_rbqh3")
 target = NodePath("../Player")
 
-[node name="HDWorldCamera" type="Camera2D" parent="HDWorld-LowRes/CameraFollow"]
-process_priority = -5
-position = Vector2(-1, -1)
-editor_draw_screen = false
-script = ExtResource("2_4eanh")
-settings = ExtResource("3_gox5e")
-draw_debug = false
-autoupdate_subpixel_position = false
+[node name="HDWorldCamera" parent="HDWorld-LowRes/CameraFollow" instance=ExtResource("3_aoimn")]
 
 [node name="Full" type="ColorRect" parent="HDWorld-LowRes/CameraFollow/HDWorldCamera"]
 z_index = -100
@@ -118,7 +110,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="HDWorld-LowRes" instance=ExtResource("4_jqtip")]
-position = Vector2(95, 254)
+position = Vector2(443, 6)
 
 [node name="Lights" type="Node" parent="HDWorld-LowRes" node_paths=PackedStringArray("sky_modulate", "output_texture", "actual_scene_camera")]
 script = ExtResource("5_n18ro")
