@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://riv6tg7f1lp7"]
+
+[ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_q2ck7"]
+[ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_s8rtv"]
+[ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_5nf8c"]
+[ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="4_5vcg5"]
+
+[node name="SceneLegend" type="Node2D"]
+
+[node name="HDWorld-LowRes" parent="." instance=ExtResource("1_q2ck7")]
+
+[node name="HDWorldCamera" type="Camera2D" parent="HDWorld-LowRes"]
+position = Vector2(160, 90)
+editor_draw_screen = false
+script = ExtResource("2_s8rtv")
+settings = ExtResource("3_5nf8c")
+
+[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes"]
+z_index = -10
+offset_right = 320.0
+offset_bottom = 180.0
+mouse_filter = 2
+color = Color(0.129412, 0.101961, 0.0627451, 1)
+
+[node name="TextArea" type="ColorRect" parent="HDWorld-LowRes"]
+offset_left = 57.0
+offset_top = 130.0
+offset_right = 263.0
+offset_bottom = 170.0
+
+[node name="HDWorld-HighRes" parent="." instance=ExtResource("4_5vcg5")]

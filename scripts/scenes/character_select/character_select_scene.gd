@@ -21,12 +21,15 @@ func _enter_tree() -> void:
 	instance = self
 
 func _ready() -> void:
-	_toggle_text(prompt_lbl)
+	prompt_lbl.modulate = Color.WHITE
+	select_lbl.modulate = Color.TRANSPARENT
+	confirm_lbl.modulate = Color.TRANSPARENT
 
 func confirm_character(char_id: String) -> void:
 	anim.play("end_transition")
 	await anim.animation_finished
 	print("doing stuff with ", char_id)
+	Game.change_scene_file("res://scenes/game_flow/scene_legend.tscn", TransitionParams.new(Game.TRANSITION_FADE, false, true))
 
 func set_active_text_color(col: Color) -> void:
 	text_col = col

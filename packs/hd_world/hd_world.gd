@@ -109,6 +109,7 @@ func unsetup_scene_from_node(scene: Node) -> bool:
         if node == null:
             continue
         # TODO(calco): Should these live longer?
+        print(node)
         if not node.is_in_group("PERMA_GROUP"):
             node.process_mode = ProcessMode.PROCESS_MODE_DISABLED
             node.queue_free()
