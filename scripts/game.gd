@@ -1,5 +1,14 @@
 extends Node
 
+var _delta_time: float = 0.0
+var _fixed_delta_time: float = 0.0
+
+func get_delta() -> float:
+	return _delta_time
+
+func get_fixed_delta() -> float:
+	return _fixed_delta_time
+
 signal on_pre_process(float)
 signal on_post_process(float)
 enum ProcessList {
@@ -31,8 +40,12 @@ func _enter_tree() -> void:
 	# var reconstructed: DummyPlayer = Serializer.Deserialize(DummyPlayer, bytes)
 	# print(reconstructed)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_delta_time = delta
 	on_pre_process.emit()
+
+func _physics_process(delta: float) -> void:
+	_fixed_delta_time = delta
 
 # Scene switching utils (should be separate object?)
 

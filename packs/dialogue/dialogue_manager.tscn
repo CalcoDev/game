@@ -1,17 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://1f7t5j8tr36n"]
+[gd_scene load_steps=9 format=3 uid="uid://1f7t5j8tr36n"]
 
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_u67pn"]
 [ext_resource type="Script" path="res://packs/dialogue/dialogue_manager.gd" id="1_ygkma"]
 [ext_resource type="PackedScene" uid="uid://c8tf3155yxlub" path="res://packs/hd_world/hd_world_camera.tscn" id="2_sq1ga"]
 [ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="3_i43xu"]
 [ext_resource type="Texture2D" uid="uid://rjjtffsw8s1o" path="res://art/dialogue/milkman_grey_box.png" id="3_sfncd"]
+[ext_resource type="Script" path="res://packs/dialogue/dialogue_display.gd" id="4_g7nv1"]
 [ext_resource type="Texture2D" uid="uid://xjonko5jk7db" path="res://art/dialogue/milkman_grey_marker.png" id="4_nyqsv"]
 [ext_resource type="FontFile" uid="uid://c61t4vvodesd8" path="res://resources/fonts/m3x6.ttf" id="5_dmc28"]
 
-[node name="DialogueManager" type="Node"]
+[node name="DialogueManager" type="Node" node_paths=PackedStringArray("dia_display")]
 script = ExtResource("1_ygkma")
 speakers_dir = "res://resources/dialogue"
 _dbg_dialogue = "res://resources/debug_dialogue.txt"
+dia_display = NodePath("HDWorld-LowRes/DialogueBox")
 
 [node name="HDWorld-LowRes" parent="." instance=ExtResource("1_u67pn")]
 
@@ -19,22 +21,27 @@ _dbg_dialogue = "res://resources/debug_dialogue.txt"
 position = Vector2(160, 90)
 draw_debug = true
 
-[node name="DialogueBox" type="Control" parent="HDWorld-LowRes"]
+[node name="DialogueBox" type="Control" parent="HDWorld-LowRes" node_paths=PackedStringArray("anim", "dialogue_box", "dialogue_box_marker", "dialogue_box_lbl")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 50.0
 offset_top = 81.0
 offset_right = 50.0
 offset_bottom = 81.0
+script = ExtResource("4_g7nv1")
+anim = NodePath("AnimationPlayer")
+dialogue_box = NodePath("Box")
+dialogue_box_marker = NodePath("Box/Marker")
+dialogue_box_lbl = NodePath("Box/MarginContainer/RichTextLabel")
 
 [node name="Box" type="NinePatchRect" parent="HDWorld-LowRes/DialogueBox"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -21.0
-offset_right = 56.0
-offset_bottom = 8.0
+offset_top = -31.0
+offset_right = 113.0
+offset_bottom = 21.0
 grow_vertical = 0
 texture = ExtResource("3_sfncd")
 patch_margin_left = 2
@@ -75,5 +82,7 @@ offset_right = 4.0
 offset_bottom = 7.0
 grow_vertical = 0
 texture = ExtResource("4_nyqsv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-LowRes/DialogueBox"]
 
 [node name="HDWorld-HighRes" parent="." instance=ExtResource("3_i43xu")]
