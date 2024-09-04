@@ -8,13 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://xjonko5jk7db" path="res://art/dialogue/milkman_grey_marker.png" id="4_nyqsv"]
 [ext_resource type="FontFile" uid="uid://c61t4vvodesd8" path="res://resources/fonts/m3x6.ttf" id="5_dmc28"]
 
-[node name="DialogueManager" type="Node" node_paths=PackedStringArray("dialogue_box", "dialogue_box_marker", "dialogue_box_lbl")]
+[node name="DialogueManager" type="Node"]
 script = ExtResource("1_ygkma")
 speakers_dir = "res://resources/dialogue"
 _dbg_dialogue = "res://resources/debug_dialogue.txt"
-dialogue_box = NodePath("HDWorld-LowRes/DialogueBox/Box")
-dialogue_box_marker = NodePath("HDWorld-LowRes/DialogueBox/Box/Marker")
-dialogue_box_lbl = NodePath("HDWorld-LowRes/DialogueBox/Box/MarginContainer/RichTextLabel")
 
 [node name="HDWorld-LowRes" parent="." instance=ExtResource("1_u67pn")]
 
