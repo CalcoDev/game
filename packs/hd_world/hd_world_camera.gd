@@ -16,6 +16,11 @@ var _old_pos: Vector2 = Vector2.ZERO
 func _enter_tree() -> void:
     if Engine.is_editor_hint():
         editor_draw_screen = false
+    # get_viewport().size_changed.connect(_handle_viewport_size_change)
+
+func _handle_viewport_size_change() -> void:
+    global_position = get_viewport().get_visible_rect().size / 2.0
+    print(global_position)
 
 func _process(_dt: float) -> void:
     if Engine.is_editor_hint():

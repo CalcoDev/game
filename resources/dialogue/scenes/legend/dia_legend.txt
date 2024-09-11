@@ -1,0 +1,16 @@
+[Speaker legend_narator]
+[Speed 10]
+
+Minge de foc,[n]
+Minge de foc,[n]
+Eu sunt BOB
+
+[Newpage]
+[Speed 2]
+
+Hai in aventura, Acrissius!
+
+[Newpage]
+[Speed 5]
+Bine ai venit in[n]
+OBEYA PROEJCT

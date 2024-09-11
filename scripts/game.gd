@@ -44,6 +44,13 @@ func _process(delta: float) -> void:
 	_delta_time = delta
 	on_pre_process.emit()
 
+	if Input.is_action_just_pressed("FULLSCR"):
+		var mode = DisplayServer.window_get_mode()
+		if mode == DisplayServer.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
 func _physics_process(delta: float) -> void:
 	_fixed_delta_time = delta
 

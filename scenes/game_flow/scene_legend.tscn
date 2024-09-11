@@ -1,11 +1,46 @@
-[gd_scene load_steps=5 format=3 uid="uid://riv6tg7f1lp7"]
+[gd_scene load_steps=11 format=3 uid="uid://riv6tg7f1lp7"]
 
+[ext_resource type="Script" path="res://scripts/scenes/legend/legend_scene.gd" id="1_3mkgv"]
 [ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_q2ck7"]
+[ext_resource type="PackedScene" uid="uid://1f7t5j8tr36n" path="res://packs/dialogue/dialogue_manager.tscn" id="2_epy7f"]
 [ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_s8rtv"]
 [ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_5nf8c"]
-[ext_resource type="PackedScene" uid="uid://b1yc202gy5dkv" path="res://packs/hd_world/hd_world_high_res.tscn" id="4_5vcg5"]
+[ext_resource type="Script" path="res://packs/dialogue/dialogue_display.gd" id="4_g2pxx"]
+[ext_resource type="Texture2D" uid="uid://ctl8t8tg18ai6" path="res://art/scenes/legend/legend_background.png" id="5_m0jo8"]
+[ext_resource type="FontFile" uid="uid://c61t4vvodesd8" path="res://resources/fonts/m3x6.ttf" id="8_0vtoi"]
 
-[node name="SceneLegend" type="Node2D"]
+[sub_resource type="Animation" id="Animation_ihl85"]
+resource_name = "cutscene"
+step = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_31acd"]
+_data = {
+"cutscene": SubResource("Animation_ihl85")
+}
+
+[node name="SceneLegend" type="Node2D" node_paths=PackedStringArray("dialogue_display")]
+script = ExtResource("1_3mkgv")
+legend_dialogue = "res://resources/dialogue/scenes/legend/dia_legend.txt"
+dialogue_display = NodePath("HDWorld-LowRes/DialogueDisplay")
+
+[node name="DialogueManager" parent="." instance=ExtResource("2_epy7f")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_31acd")
+}
+autoplay = "cutscene"
 
 [node name="HDWorld-LowRes" parent="." instance=ExtResource("1_q2ck7")]
 
@@ -15,17 +50,43 @@ editor_draw_screen = false
 script = ExtResource("2_s8rtv")
 settings = ExtResource("3_5nf8c")
 
-[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes"]
+[node name="Background" type="TextureRect" parent="HDWorld-LowRes"]
 z_index = -10
 offset_right = 320.0
 offset_bottom = 180.0
 mouse_filter = 2
-color = Color(0.129412, 0.101961, 0.0627451, 1)
+texture = ExtResource("5_m0jo8")
 
-[node name="TextArea" type="ColorRect" parent="HDWorld-LowRes"]
-offset_left = 57.0
+[node name="DialogueDisplay" type="ColorRect" parent="HDWorld-LowRes" node_paths=PackedStringArray("dialogue_box_lbl") groups=["hdworld_become_highres"]]
+offset_left = 35.0
 offset_top = 130.0
-offset_right = 263.0
+offset_right = 285.0
 offset_bottom = 170.0
+color = Color(0, 0, 0, 0.690196)
+script = ExtResource("4_g2pxx")
+dialogue_box_lbl = NodePath("MarginContainer/RichTextLabel")
 
-[node name="HDWorld-HighRes" parent="." instance=ExtResource("4_5vcg5")]
+[node name="MarginContainer" type="MarginContainer" parent="HDWorld-LowRes/DialogueDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="HDWorld-LowRes/DialogueDisplay/MarginContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HDWorld-LowRes/DialogueDisplay/MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("8_0vtoi")
+bbcode_enabled = true
+text = "[center]Many harvests 'fore, from green tailed's beak
+Down fell seed which wind would feed[/center]"
+fit_content = true

@@ -3,10 +3,10 @@ class_name DialogueDisplay
 extends Node
 
 # TODO(calco): Dialopgue Display should be its own component probs
-@export var anim: AnimationPlayer = null
+# @export var anim: AnimationPlayer = null
 
-@export var dialogue_box: NinePatchRect = null
-@export var dialogue_box_marker: TextureRect = null
+# @export var dialogue_box: NinePatchRect = null
+# @export var dialogue_box_marker: TextureRect = null
 @export var dialogue_box_lbl: RichTextLabel = null
 
 func display() -> void:
