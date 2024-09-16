@@ -69,8 +69,9 @@ func change_scene(node: Node, params: TransitionParams) -> void:
 		_scene_transition_anim.play(params.name + "_in")
 		_scene_transition_anim.advance(0)
 		await _scene_transition_anim.animation_finished
-	HDWorld.setup_scene_from_node(node, HDWorld.SceneLoadMode.Replace)
+	# HDWorld.setup_scene_from_node(node, HDWorld.SceneLoadMode.Replace)
 	# TODO(calco): Probably await some scene setup here or sth
+    # do sth
 	if params.play_out:
 		_scene_transition_anim.play(params.name + "_out")
 		_scene_transition_anim.advance(0)

@@ -1,10 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://dd3hehc78l75d"]
+[gd_scene load_steps=25 format=3 uid="uid://dd3hehc78l75d"]
 
-[ext_resource type="PackedScene" uid="uid://bmn67vc6yffx4" path="res://packs/hd_world/hd_world_low_res.tscn" id="1_s0s8c"]
 [ext_resource type="Script" path="res://scripts/scenes/character_select/character_select_scene.gd" id="1_x821v"]
 [ext_resource type="FontFile" uid="uid://bpgyb2ypvbdup" path="res://resources/fonts/dm_sans/DMSans-Regular.ttf" id="2_4c1e2"]
-[ext_resource type="Script" path="res://packs/hd_world/hd_world_camera.gd" id="2_jemmc"]
-[ext_resource type="Resource" uid="uid://b1v8wtg845e8u" path="res://resources/viewport_settings.tres" id="3_55b7g"]
 [ext_resource type="FontFile" uid="uid://71bh1v7ykyvd" path="res://resources/fonts/dm_sans/DMSans-Bold.ttf" id="3_qjnvi"]
 [ext_resource type="Texture2D" uid="uid://3vvx7ytgiv3a" path="res://art/scenes/character_select/sun.png" id="4_rgag4"]
 [ext_resource type="Texture2D" uid="uid://cwmv8hnxyp1rv" path="res://art/lights/light_circle_hard.png" id="5_bsucm"]
@@ -326,7 +323,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/path = NodePath("../Overlay:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -338,7 +335,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ok:modulate")
+tracks/1/path = NodePath("../ok:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -350,7 +347,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ok:position")
+tracks/2/path = NodePath("../ok:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -362,7 +359,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("ok:text")
+tracks/3/path = NodePath("../ok:text")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -374,7 +371,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("FullOerlay:modulate")
+tracks/4/path = NodePath("../FullOerlay:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -391,7 +388,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/path = NodePath("../Overlay:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -403,7 +400,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ok:modulate")
+tracks/1/path = NodePath("../ok:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -415,7 +412,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ok:position")
+tracks/2/path = NodePath("../ok:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -427,7 +424,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("ok:text")
+tracks/3/path = NodePath("../ok:text")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -439,7 +436,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("FullOerlay:modulate")
+tracks/4/path = NodePath("../FullOerlay:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -457,25 +454,23 @@ _data = {
 
 [node name="CharacterSelect" type="Node2D" node_paths=PackedStringArray("prompt_lbl", "select_lbl", "confirm_lbl", "anim")]
 script = ExtResource("1_x821v")
-prompt_lbl = NodePath("HDWorld-LowRes/who_are_you")
-select_lbl = NodePath("HDWorld-LowRes/endorse")
-confirm_lbl = NodePath("HDWorld-LowRes/prepared")
-anim = NodePath("HDWorld-LowRes/AnimationPlayer")
+prompt_lbl = NodePath("who_are_you")
+select_lbl = NodePath("endorse")
+confirm_lbl = NodePath("prepared")
+anim = NodePath("AnimationPlayer")
 
-[node name="HDWorld-LowRes" parent="." instance=ExtResource("1_s0s8c")]
-
-[node name="ColorRect" type="ColorRect" parent="HDWorld-LowRes"]
+[node name="ColorRect" type="ColorRect" parent="."]
 z_index = -10
-offset_right = 320.0
-offset_bottom = 180.0
+offset_right = 640.0
+offset_bottom = 360.0
 mouse_filter = 2
 color = Color(0.129412, 0.101961, 0.0627451, 1)
 
-[node name="who_are_you" type="RichTextLabel" parent="HDWorld-LowRes"]
+[node name="who_are_you" type="RichTextLabel" parent="."]
 clip_contents = false
-offset_top = 20.0
-offset_right = 320.0
-offset_bottom = 62.0
+offset_top = 72.0
+offset_right = 640.0
+offset_bottom = 114.0
 mouse_filter = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 4
@@ -490,11 +485,11 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="prepared" type="RichTextLabel" parent="HDWorld-LowRes"]
+[node name="prepared" type="RichTextLabel" parent="."]
 clip_contents = false
-offset_top = 22.0
-offset_right = 320.0
-offset_bottom = 64.0
+offset_top = 74.0
+offset_right = 640.0
+offset_bottom = 116.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_4c1e2")
 theme_override_fonts/bold_font = ExtResource("3_qjnvi")
@@ -507,11 +502,11 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="endorse" type="RichTextLabel" parent="HDWorld-LowRes"]
+[node name="endorse" type="RichTextLabel" parent="."]
 clip_contents = false
-offset_top = 19.0
-offset_right = 320.0
-offset_bottom = 61.0
+offset_top = 71.0
+offset_right = 640.0
+offset_bottom = 113.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_4c1e2")
 theme_override_fonts/bold_font = ExtResource("3_qjnvi")
@@ -524,7 +519,8 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="Overlay" type="ColorRect" parent="HDWorld-LowRes"]
+[node name="Overlay" type="ColorRect" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0)
 z_index = 10
 offset_right = 320.0
@@ -532,7 +528,8 @@ offset_bottom = 180.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="FullOerlay" type="ColorRect" parent="HDWorld-LowRes"]
+[node name="FullOerlay" type="ColorRect" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 0)
 z_index = 4096
 offset_right = 320.0
@@ -540,7 +537,8 @@ offset_bottom = 180.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="ok" type="RichTextLabel" parent="HDWorld-LowRes"]
+[node name="ok" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0)
 z_index = 2000
 clip_contents = false
@@ -559,37 +557,32 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="HDWorldCamera" type="Camera2D" parent="HDWorld-LowRes"]
-position = Vector2(160, 90)
-editor_draw_screen = false
-script = ExtResource("2_jemmc")
-settings = ExtResource("3_55b7g")
-
-[node name="Global" type="DirectionalLight2D" parent="HDWorld-LowRes"]
+[node name="Global" type="DirectionalLight2D" parent="."]
 visible = false
 blend_mode = 2
 
-[node name="Sun" type="Sprite2D" parent="HDWorld-LowRes"]
-position = Vector2(152, 10)
+[node name="Sun" type="Sprite2D" parent="."]
+position = Vector2(312, 10)
 texture = ExtResource("4_rgag4")
 centered = false
 
-[node name="PointLight2D" type="PointLight2D" parent="HDWorld-LowRes/Sun"]
+[node name="PointLight2D" type="PointLight2D" parent="Sun"]
 position = Vector2(8, 8)
 blend_mode = 2
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 1)
 texture = ExtResource("5_bsucm")
+texture_scale = 2.0
 
-[node name="Shadow" type="Sprite2D" parent="HDWorld-LowRes/Sun"]
+[node name="Shadow" type="Sprite2D" parent="Sun"]
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 position = Vector2(0, 4)
 texture = ExtResource("4_rgag4")
 centered = false
 
-[node name="BobSelect" type="Node2D" parent="HDWorld-LowRes" node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
-position = Vector2(70, 111)
+[node name="BobSelect" type="Node2D" parent="." node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
+position = Vector2(140, 165)
 rotation = 0.523599
 script = ExtResource("9_eve6d")
 char_id = "bob"
@@ -600,59 +593,61 @@ anim = NodePath("AnimationPlayer")
 char_anim = NodePath("CharAnim")
 text_color = Color(0.2, 0.305882, 0.309804, 1)
 
-[node name="Visuals" type="Node2D" parent="HDWorld-LowRes/BobSelect"]
+[node name="Visuals" type="Node2D" parent="BobSelect"]
 
-[node name="Character" type="Sprite2D" parent="HDWorld-LowRes/BobSelect/Visuals"]
+[node name="Character" type="Sprite2D" parent="BobSelect/Visuals"]
 light_mask = 2
 position = Vector2(-11, -39)
 texture = ExtResource("6_778aj")
 centered = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="HDWorld-LowRes/BobSelect/Visuals/Character"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="BobSelect/Visuals/Character"]
 position = Vector2(11, 39)
 occluder = SubResource("OccluderPolygon2D_wwvr2")
 
-[node name="Area2D" type="Area2D" parent="HDWorld-LowRes/BobSelect/Visuals/Character"]
+[node name="Area2D" type="Area2D" parent="BobSelect/Visuals/Character"]
 position = Vector2(11.3301, 39.5718)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HDWorld-LowRes/BobSelect/Visuals/Character/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BobSelect/Visuals/Character/Area2D"]
 position = Vector2(-0.687843, -14.0622)
 shape = SubResource("RectangleShape2D_tm36i")
 
-[node name="Bottom" type="Sprite2D" parent="HDWorld-LowRes/BobSelect/Visuals"]
+[node name="Bottom" type="Sprite2D" parent="BobSelect/Visuals"]
 modulate = Color(0.2, 0.305882, 0.309804, 1)
 light_mask = 2
 position = Vector2(-16, 4)
 texture = ExtResource("7_scttc")
 centered = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="HDWorld-LowRes/BobSelect/Visuals/Bottom"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="BobSelect/Visuals/Bottom"]
 position = Vector2(11, 39)
 occluder = SubResource("OccluderPolygon2D_tslne")
 
-[node name="AreaArea" type="Area2D" parent="HDWorld-LowRes/BobSelect"]
-visible = false
-position = Vector2(155.885, -90)
+[node name="AreaArea" type="Area2D" parent="BobSelect"]
+position = Vector2(342.501, -130.771)
 rotation = -1.04928
+scale = Vector2(2, 2)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HDWorld-LowRes/BobSelect/AreaArea"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BobSelect/AreaArea"]
 polygon = PackedVector2Array(-178.852, -20.519, -26.4735, -143.685, -161.372, -222.495, -252.872, -64.0122)
 
-[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/BobSelect"]
+[node name="Polygon2D" type="Polygon2D" parent="BobSelect"]
+position = Vector2(-5.01665, 43.3109)
+scale = Vector2(2, 2)
 color = Color(1, 1, 1, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-LowRes/BobSelect"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BobSelect"]
 libraries = {
 "": SubResource("AnimationLibrary_2u03c")
 }
 
-[node name="CharAnim" type="AnimationPlayer" parent="HDWorld-LowRes/BobSelect"]
+[node name="CharAnim" type="AnimationPlayer" parent="BobSelect"]
 libraries = {
 "": SubResource("AnimationLibrary_2u03c")
 }
 
-[node name="MilkmanSelect" type="Node2D" parent="HDWorld-LowRes" node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
-position = Vector2(160, 134)
+[node name="MilkmanSelect" type="Node2D" parent="." node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
+position = Vector2(320, 255)
 script = ExtResource("9_eve6d")
 char_id = "milkman"
 area = NodePath("Visuals/Character/Area2D")
@@ -662,59 +657,61 @@ anim = NodePath("AnimationPlayer")
 char_anim = NodePath("CharAnim")
 text_color = Color(0.815686, 0.737255, 0.67451, 1)
 
-[node name="Visuals" type="Node2D" parent="HDWorld-LowRes/MilkmanSelect"]
+[node name="Visuals" type="Node2D" parent="MilkmanSelect"]
 
-[node name="Character" type="Sprite2D" parent="HDWorld-LowRes/MilkmanSelect/Visuals"]
+[node name="Character" type="Sprite2D" parent="MilkmanSelect/Visuals"]
 light_mask = 2
 position = Vector2(-11, -39)
 texture = ExtResource("8_th5m4")
 centered = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="HDWorld-LowRes/MilkmanSelect/Visuals/Character"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="MilkmanSelect/Visuals/Character"]
 position = Vector2(11, 39)
 occluder = SubResource("OccluderPolygon2D_wwvr2")
 
-[node name="Area2D" type="Area2D" parent="HDWorld-LowRes/MilkmanSelect/Visuals/Character"]
+[node name="Area2D" type="Area2D" parent="MilkmanSelect/Visuals/Character"]
 position = Vector2(11.3301, 39.5718)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HDWorld-LowRes/MilkmanSelect/Visuals/Character/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MilkmanSelect/Visuals/Character/Area2D"]
 position = Vector2(-0.687836, -16.1824)
 shape = SubResource("RectangleShape2D_tm36i")
 
-[node name="Bottom" type="Sprite2D" parent="HDWorld-LowRes/MilkmanSelect/Visuals"]
+[node name="Bottom" type="Sprite2D" parent="MilkmanSelect/Visuals"]
 modulate = Color(0.815686, 0.737255, 0.67451, 1)
 light_mask = 2
 position = Vector2(-16, 4)
 texture = ExtResource("7_scttc")
 centered = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="HDWorld-LowRes/MilkmanSelect/Visuals/Bottom"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="MilkmanSelect/Visuals/Bottom"]
 position = Vector2(11, 39)
 occluder = SubResource("OccluderPolygon2D_tslne")
 
-[node name="AreaArea" type="Area2D" parent="HDWorld-LowRes/MilkmanSelect"]
-visible = false
-position = Vector2(155.885, -90)
+[node name="AreaArea" type="Area2D" parent="MilkmanSelect"]
+position = Vector2(314, -166)
 rotation = -1.04928
+scale = Vector2(2, 2)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HDWorld-LowRes/MilkmanSelect/AreaArea"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MilkmanSelect/AreaArea"]
 polygon = PackedVector2Array(-159.822, 0.850769, -37.0194, -152.748, -42.0013, -161.418, -235.548, -130.943)
 
-[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/MilkmanSelect"]
+[node name="Polygon2D" type="Polygon2D" parent="MilkmanSelect"]
+position = Vector2(-5, 43)
+scale = Vector2(2, 2)
 color = Color(1, 1, 1, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-LowRes/MilkmanSelect"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MilkmanSelect"]
 libraries = {
 "": SubResource("AnimationLibrary_2u03c")
 }
 
-[node name="CharAnim" type="AnimationPlayer" parent="HDWorld-LowRes/MilkmanSelect"]
+[node name="CharAnim" type="AnimationPlayer" parent="MilkmanSelect"]
 libraries = {
 "": SubResource("AnimationLibrary_2u03c")
 }
 
-[node name="ObeyaSelect" type="Node2D" parent="HDWorld-LowRes" node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
-position = Vector2(250, 111)
+[node name="ObeyaSelect" type="Node2D" parent="." node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
+position = Vector2(500, 165)
 rotation = -0.523599
 script = ExtResource("9_eve6d")
 char_id = "obeya"
@@ -725,58 +722,61 @@ anim = NodePath("AnimationPlayer")
 char_anim = NodePath("CharAnim")
 text_color = Color(0.270588, 0.2, 0.305882, 1)
 
-[node name="Visuals" type="Node2D" parent="HDWorld-LowRes/ObeyaSelect"]
+[node name="Visuals" type="Node2D" parent="ObeyaSelect"]
 
-[node name="Character" type="Sprite2D" parent="HDWorld-LowRes/ObeyaSelect/Visuals"]
+[node name="Character" type="Sprite2D" parent="ObeyaSelect/Visuals"]
 light_mask = 2
 position = Vector2(-11, -39)
 texture = ExtResource("9_kq8cu")
 centered = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="HDWorld-LowRes/ObeyaSelect/Visuals/Character"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObeyaSelect/Visuals/Character"]
 position = Vector2(11, 39)
 occluder = SubResource("OccluderPolygon2D_wwvr2")
 
-[node name="Area2D" type="Area2D" parent="HDWorld-LowRes/ObeyaSelect/Visuals/Character"]
+[node name="Area2D" type="Area2D" parent="ObeyaSelect/Visuals/Character"]
 position = Vector2(11.3301, 39.5718)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HDWorld-LowRes/ObeyaSelect/Visuals/Character/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObeyaSelect/Visuals/Character/Area2D"]
 position = Vector2(-0.687836, -18.0083)
 shape = SubResource("RectangleShape2D_tm36i")
 
-[node name="Bottom" type="Sprite2D" parent="HDWorld-LowRes/ObeyaSelect/Visuals"]
+[node name="Bottom" type="Sprite2D" parent="ObeyaSelect/Visuals"]
 modulate = Color(0.270588, 0.2, 0.305882, 1)
 light_mask = 2
 position = Vector2(-16, 4)
 texture = ExtResource("7_scttc")
 centered = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="HDWorld-LowRes/ObeyaSelect/Visuals/Bottom"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObeyaSelect/Visuals/Bottom"]
 position = Vector2(11, 39)
 occluder = SubResource("OccluderPolygon2D_tslne")
 
-[node name="AreaArea" type="Area2D" parent="HDWorld-LowRes/ObeyaSelect"]
-visible = false
-position = Vector2(155.885, -90)
+[node name="AreaArea" type="Area2D" parent="ObeyaSelect"]
+position = Vector2(284.617, -128.97)
 rotation = -1.04928
+scale = Vector2(2, 2)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HDWorld-LowRes/ObeyaSelect/AreaArea"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ObeyaSelect/AreaArea"]
 polygon = PackedVector2Array(-227.843, -20.4749, -44.843, -20.0938, -44.5202, -175.093, -227.67, -103.475)
 
-[node name="Polygon2D" type="Polygon2D" parent="HDWorld-LowRes/ObeyaSelect"]
+[node name="Polygon2D" type="Polygon2D" parent="ObeyaSelect"]
+position = Vector2(154.047, 1.18211)
+scale = Vector2(2, 2)
 color = Color(1, 1, 1, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-LowRes/ObeyaSelect"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ObeyaSelect"]
 libraries = {
 "": SubResource("AnimationLibrary_2u03c")
 }
 
-[node name="CharAnim" type="AnimationPlayer" parent="HDWorld-LowRes/ObeyaSelect"]
+[node name="CharAnim" type="AnimationPlayer" parent="ObeyaSelect"]
 libraries = {
 "": SubResource("AnimationLibrary_2u03c")
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-LowRes"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("")
 libraries = {
 "": SubResource("AnimationLibrary_2w682")
 }
