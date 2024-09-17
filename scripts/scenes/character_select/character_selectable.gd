@@ -77,6 +77,7 @@ func unhover_self() -> void:
 	if not hovered:
 		return
 	hovered = false
+	selected = false
 	char_anim.play("unhover")
 	CharacterSelectScene.instance.deselect_char()
 

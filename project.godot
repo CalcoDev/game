@@ -13,7 +13,7 @@ config_version=5
 config/name="game"
 config/description="[game]"
 run/main_scene="res://scenes/menus/main_menu.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=240
 config/icon="res://art/icon.png"
 
@@ -24,12 +24,11 @@ NetworkManager="*res://packs/networking/NetworkManager.tscn"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=360
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/viewport_width=480
+window/size/viewport_height=270
+window/size/window_width_override=960
+window/size/window_height_override=540
 window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=0
 
 [dotnet]

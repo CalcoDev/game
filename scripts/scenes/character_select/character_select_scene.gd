@@ -26,10 +26,12 @@ func _ready() -> void:
 	confirm_lbl.modulate = Color.TRANSPARENT
 
 func confirm_character(char_id: String) -> void:
+	if anim.is_playing() and anim.current_animation == "end_transition":
+		return
 	anim.play("end_transition")
 	await anim.animation_finished
 	print("doing stuff with ", char_id)
-	Game.change_scene_file("res://scenes/game_flow/scene_legend.tscn", TransitionParams.new(Game.TRANSITION_FADE, false, true))
+	Game.change_scene_file("res://scenes/game_flow/scene_legend.tscn", TransitionParams.new(Game.TRANSITION_FADE, false, true, true))
 
 func set_active_text_color(col: Color) -> void:
 	text_col = col
@@ -43,6 +45,7 @@ func select_char() -> void:
 func confirm_char() -> void:
 	_toggle_text(confirm_lbl)
 	
+# TODO(Calco): Fix this to now change modulate of random text
 func _toggle_text(txt: RichTextLabel) -> void:
 	var og_col = text_col
 	og_col.a8 = 0

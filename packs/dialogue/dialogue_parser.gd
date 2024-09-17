@@ -154,11 +154,15 @@ static var DEFAULT_BB_TOKENS = {
 
 var _c = 0
 func get_next_token() -> Token:
+    @warning_ignore("confusable_local_usage")
     var text_len = len(text)
+    @warning_ignore("confusable_local_usage")
     if _c >= len(text):
         return Token.new(Token.EOF, "eof")
 
     # get the remaining text
+    @warning_ignore("confusable_local_usage")
+    @warning_ignore("shadowed_variable")
     var text = text.substr(_c, -1)
 
     # get the first [
@@ -212,4 +216,3 @@ func get_next_token() -> Token:
     else:
         _c += t_end + 1
         return Token.custom_from_str(token)
-

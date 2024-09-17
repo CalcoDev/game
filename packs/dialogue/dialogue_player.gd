@@ -30,7 +30,6 @@ func play_dialogue_coro(ctx: Coroutine.Ctx, dialogue: Dialogue) -> void:
     display.visible_characters = 0
 
     var speed: float = 1.0
-    var curr_idx: int = 0
 
     var token: Dialogue.Token
     var wait_frame = true

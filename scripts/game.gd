@@ -9,7 +9,10 @@ func get_delta() -> float:
 func get_fixed_delta() -> float:
 	return _fixed_delta_time
 
+
+signal on_deferred()
 signal on_pre_process(float)
+@warning_ignore("unused_signal")
 signal on_post_process(float)
 enum ProcessList {
 	PreProcess = -999,
@@ -54,6 +57,11 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	_fixed_delta_time = delta
 
+func await_deferred() -> Signal:
+	var def_sig = Signal(on_deferred)
+	def_sig.emit.call_deferred()
+	return def_sig
+
 # Scene switching utils (should be separate object?)
 
 # change scene, [transition], [wait for end?]
@@ -71,11 +79,25 @@ func change_scene(node: Node, params: TransitionParams) -> void:
 		await _scene_transition_anim.animation_finished
 	# HDWorld.setup_scene_from_node(node, HDWorld.SceneLoadMode.Replace)
 	# TODO(calco): Probably await some scene setup here or sth
-    # do sth
+	# do sth
+
+	if params.await_scene_load:
+		await _handle_scene_load_unload(node)
+	else:
+		_handle_scene_load_unload(node)
+
 	if params.play_out:
 		_scene_transition_anim.play(params.name + "_out")
 		_scene_transition_anim.advance(0)
 		await _scene_transition_anim.animation_finished
+
+# TODO(Calco): Await for stuff to be done here ig
+func _handle_scene_load_unload(node: Node) -> void:
+	get_tree().call_deferred("unload_current_scene")
+	await await_deferred()
+	get_tree().root.add_child(node)
+	node.owner = get_tree().root
+	get_tree().current_scene = node
 
 func change_scene_file(filepath: String, params: TransitionParams) -> void:
 	var scene_inst = load(filepath).instantiate()
