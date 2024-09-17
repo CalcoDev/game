@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://cbolod7ldfpx7"]
+
+[ext_resource type="Script" path="res://global/autoload/game/game.gd" id="1_axxfn"]
+[ext_resource type="PackedScene" path="res://addons/hd_world/hd_world_high_res.tscn" id="2_t0rq7"]
+[ext_resource type="Script" path="res://global/autoload/game/pre_process.gd" id="3_8qipo"]
+[ext_resource type="Script" path="res://global/autoload/game/post_process.gd" id="4_khlfx"]
+
+[sub_resource type="Animation" id="Animation_bdgqp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rb121"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.27456, 5.27803),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_n1ceh"]
+resource_name = "fade_out"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.7411, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eum63"]
+_data = {
+"RESET": SubResource("Animation_bdgqp"),
+"fade_in": SubResource("Animation_rb121"),
+"fade_out": SubResource("Animation_n1ceh")
+}
+
+[node name="Game" type="Node"]
+script = ExtResource("1_axxfn")
+
+[node name="HDWorld-HighRes" parent="." groups=["hdworld_permanent"] instance=ExtResource("2_t0rq7")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="HDWorld-HighRes"]
+layer = 99
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-HighRes/CanvasLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_eum63")
+}
+
+[node name="ColorRect" type="ColorRect" parent="HDWorld-HighRes/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="PreProcess" type="Node" parent="."]
+script = ExtResource("3_8qipo")
+
+[node name="PostProcess" type="Node" parent="."]
+script = ExtResource("4_khlfx")

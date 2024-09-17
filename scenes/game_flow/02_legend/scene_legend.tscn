@@ -1,0 +1,90 @@
+[gd_scene load_steps=8 format=3 uid="uid://riv6tg7f1lp7"]
+
+[ext_resource type="Script" path="res://scenes/game_flow/02_legend/legend_scene.gd" id="1_3mkgv"]
+[ext_resource type="PackedScene" uid="uid://1f7t5j8tr36n" path="res://addons/dialogue/dialogue_manager.tscn" id="2_epy7f"]
+[ext_resource type="Script" path="res://addons/dialogue/dialogue_display.gd" id="4_g2pxx"]
+[ext_resource type="FontFile" uid="uid://dhltuc6daej74" path="res://resources/fonts/BitPotionExt.ttf" id="5_2x8yk"]
+[ext_resource type="Texture2D" uid="uid://ctl8t8tg18ai6" path="res://assets/image/scenes/legend/legend_background.png" id="5_m0jo8"]
+
+[sub_resource type="Animation" id="Animation_ihl85"]
+resource_name = "cutscene"
+step = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_cutscene"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_31acd"]
+_data = {
+&"cutscene": SubResource("Animation_ihl85")
+}
+
+[node name="SceneLegend" type="Node2D" node_paths=PackedStringArray("dialogue_display")]
+script = ExtResource("1_3mkgv")
+legend_dialogue = "res://resources/dialogue/scenes/legend/dia_legend.txt"
+dialogue_display = NodePath("DialogueDisplay")
+
+[node name="DialogueManager" parent="." instance=ExtResource("2_epy7f")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_31acd")
+}
+autoplay = "cutscene"
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -10
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+texture = ExtResource("5_m0jo8")
+
+[node name="DialogueDisplay" type="ColorRect" parent="." node_paths=PackedStringArray("dialogue_box_lbl") groups=["hdworld_become_highres"]]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 93.0
+offset_top = 188.0
+offset_right = 387.0
+offset_bottom = 242.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.690196)
+script = ExtResource("4_g2pxx")
+dialogue_box_lbl = NodePath("MarginContainer/RichTextLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="DialogueDisplay/MarginContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="DialogueDisplay/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("5_2x8yk")
+bbcode_enabled = true
+text = "[center]Many harvests 'fore, from green tailed's beak
+Down fell seed which wind would feed[/center]"
+fit_content = true

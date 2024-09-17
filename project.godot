@@ -15,12 +15,12 @@ config/description="[game]"
 run/main_scene="res://scenes/menus/main_menu.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=240
-config/icon="res://art/icon.png"
+config/icon="res://assets/image/icon.png"
 
 [autoload]
 
-Game="*res://scenes/managers/game.tscn"
-NetworkManager="*res://packs/networking/NetworkManager.tscn"
+Game="*res://global/autoload/game/game.tscn"
+NetworkManager="*res://addons/networking/NetworkManager.tscn"
 
 [display]
 

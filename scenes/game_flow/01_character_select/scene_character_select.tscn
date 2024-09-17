@@ -1,0 +1,777 @@
+[gd_scene load_steps=25 format=3 uid="uid://dd3hehc78l75d"]
+
+[ext_resource type="Script" path="res://scenes/game_flow/01_character_select/character_select_scene.gd" id="1_x821v"]
+[ext_resource type="FontFile" uid="uid://bpgyb2ypvbdup" path="res://resources/fonts/dm_sans/DMSans-Regular.ttf" id="2_4c1e2"]
+[ext_resource type="FontFile" uid="uid://71bh1v7ykyvd" path="res://resources/fonts/dm_sans/DMSans-Bold.ttf" id="3_qjnvi"]
+[ext_resource type="Texture2D" uid="uid://3vvx7ytgiv3a" path="res://assets/image/scenes/character_select/sun.png" id="4_rgag4"]
+[ext_resource type="Texture2D" uid="uid://cwmv8hnxyp1rv" path="res://assets/image/lights/light_circle_hard.png" id="5_bsucm"]
+[ext_resource type="Texture2D" uid="uid://b3hh6yvneun58" path="res://assets/image/scenes/character_select/character_select_bob.png" id="6_778aj"]
+[ext_resource type="Texture2D" uid="uid://b8lydov8eh00h" path="res://assets/image/scenes/character_select/character_select_underline.png" id="7_scttc"]
+[ext_resource type="Texture2D" uid="uid://cg2yxt1xtxix1" path="res://assets/image/scenes/character_select/character_select_milkman.png" id="8_th5m4"]
+[ext_resource type="Script" path="res://scenes/game_flow/01_character_select/character_selectable.gd" id="9_eve6d"]
+[ext_resource type="Texture2D" uid="uid://6awjay5uy2kh" path="res://assets/image/scenes/character_select/character_select_obeya.png" id="9_kq8cu"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wwvr2"]
+cull_mode = 1
+polygon = PackedVector2Array(-10.3398, -37.909, 11.1147, -38.7487, 11.7942, 2.4282, -10.6603, 1.5359)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tm36i"]
+size = Vector2(23.7321, 53.2211)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_tslne"]
+cull_mode = 1
+polygon = PackedVector2Array(-10.8564, -38.4641, 21.3923, -38.6077, 21.4282, -30.5455, -10.4545, -31.7679)
+
+[sub_resource type="Animation" id="Animation_f6o6a"]
+resource_name = "select"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Character:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-11, -44), Vector2(-11, -48)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Bottom:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-16, 5), Vector2(-16, 9)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oasqc"]
+resource_name = "hover"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Character:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-11, -39), Vector2(-11, -44)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Bottom:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-16, 4), Vector2(-16, 5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2tyik"]
+resource_name = "deselect"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Character:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-11, -48), Vector2(-11, -44)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Bottom:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-16, 9), Vector2(-16, 5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mgwci"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-11, -39)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Bottom:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-16, 4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Polygon2D:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visuals:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1x63o"]
+resource_name = "unhover"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Character:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-11, -44), Vector2(-11, -39)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Bottom:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-16, 5), Vector2(-16, 4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_x64jf"]
+resource_name = "highlight"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.0784314), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ovnkw"]
+resource_name = "unhighlight"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 0.0784314)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2u03c"]
+_data = {
+&"select": SubResource("Animation_f6o6a"),
+&"RESET": SubResource("Animation_mgwci"),
+&"deselect": SubResource("Animation_2tyik"),
+&"hover": SubResource("Animation_oasqc"),
+&"unhighlight": SubResource("Animation_ovnkw"),
+&"unhover": SubResource("Animation_1x63o"),
+&"highlight": SubResource("Animation_x64jf")
+}
+
+[sub_resource type="Animation" id="Animation_urjrb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ok:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ok:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 38)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ok:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["[shake rate=2][center][b]ok[/b][/center][/shake]"]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FullOerlay:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a4nbw"]
+resource_name = "end_transition"
+length = 10.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ok:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.4),
+"transitions": PackedFloat32Array(3.03143, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ok:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.1, 2.4),
+"transitions": PackedFloat32Array(2.37841, 1.7411),
+"update": 0,
+"values": [Vector2(0, 38), Vector2(0, 116)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ok:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.1, 4.5, 6, 7, 8.1, 9.1, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["[shake rate=2][center][b]ok[/b][/center][/shake]", "[shake rate=5][center][b].[/b][/center][/shake]", "[shake rate=15 level=10][center][b]..[/b][/center][/shake]", "[shake rate=20 level=20][center][b]...[/b][/center][/shake]", "[shake rate=20 level=20][center][b]....[/b][/center][/shake]", "[shake rate=20 level=20][center][b].....[/b][/center][/shake]", "[shake rate=20 level=20][center][b]......[/b][/center][/shake]"]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FullOerlay:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.5, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2w682"]
+_data = {
+&"RESET": SubResource("Animation_urjrb"),
+&"end_transition": SubResource("Animation_a4nbw")
+}
+
+[node name="CharacterSelect" type="Node2D" node_paths=PackedStringArray("prompt_lbl", "select_lbl", "confirm_lbl", "anim")]
+script = ExtResource("1_x821v")
+prompt_lbl = NodePath("who_are_you")
+select_lbl = NodePath("endorse")
+confirm_lbl = NodePath("prepared")
+anim = NodePath("AnimationPlayer")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -10
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+color = Color(0.129412, 0.101961, 0.0627451, 1)
+
+[node name="who_are_you" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_top = 79.0
+offset_right = 480.0
+offset_bottom = 121.0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/normal_font = ExtResource("2_4c1e2")
+theme_override_fonts/bold_font = ExtResource("3_qjnvi")
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[shake rate=1 level=10][wave amp=100 freq=2 connected=1][center][b][color=\"#334e4f\"]who[/color] [color=\"#d0bcac\"]are[/color] [color=\"#45334e\"]you ?[/color][/b][/center][/wave][/shake]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="prepared" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_top = 81.0
+offset_right = 480.0
+offset_bottom = 123.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_4c1e2")
+theme_override_fonts/bold_font = ExtResource("3_qjnvi")
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[shake rate=2 level=20][wave amp=75 freq=2 connected=1][center][b]prepared ?[/b][/center][/wave][/shake]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="endorse" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_top = 78.0
+offset_right = 480.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_4c1e2")
+theme_override_fonts/bold_font = ExtResource("3_qjnvi")
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[shake rate=10 level=10][wave amp=50 freq=1 connected=1][center][b]endorse ?[/b][/center][/wave][/shake]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="Overlay" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 10
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="FullOerlay" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0)
+z_index = 4096
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ok" type="RichTextLabel" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 2000
+clip_contents = false
+offset_top = 38.0
+offset_right = 480.0
+offset_bottom = 122.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_4c1e2")
+theme_override_fonts/bold_font = ExtResource("3_qjnvi")
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[shake rate=2][center][b]ok[/b][/center][/shake]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="Global" type="DirectionalLight2D" parent="."]
+blend_mode = 2
+
+[node name="Sun" type="Sprite2D" parent="."]
+position = Vector2(232, 10)
+texture = ExtResource("4_rgag4")
+centered = false
+
+[node name="PointLight2D" type="PointLight2D" parent="Sun"]
+position = Vector2(8, 8)
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("5_bsucm")
+texture_scale = 2.0
+
+[node name="Shadow" type="Sprite2D" parent="Sun"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, 4)
+texture = ExtResource("4_rgag4")
+centered = false
+
+[node name="BobSelect" type="Node2D" parent="." node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
+position = Vector2(100, 184)
+rotation = 0.523599
+script = ExtResource("9_eve6d")
+char_id = "bob"
+area = NodePath("Visuals/Character/Area2D")
+area_area = NodePath("AreaArea")
+area_poly = NodePath("Polygon2D")
+anim = NodePath("AnimationPlayer")
+char_anim = NodePath("CharAnim")
+text_color = Color(0.2, 0.305882, 0.309804, 1)
+
+[node name="Visuals" type="Node2D" parent="BobSelect"]
+
+[node name="Character" type="Sprite2D" parent="BobSelect/Visuals"]
+light_mask = 2
+position = Vector2(-11, -39)
+texture = ExtResource("6_778aj")
+centered = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="BobSelect/Visuals/Character"]
+position = Vector2(11, 39)
+occluder = SubResource("OccluderPolygon2D_wwvr2")
+
+[node name="Area2D" type="Area2D" parent="BobSelect/Visuals/Character"]
+position = Vector2(11.3301, 39.5718)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BobSelect/Visuals/Character/Area2D"]
+position = Vector2(-0.687843, -14.0622)
+shape = SubResource("RectangleShape2D_tm36i")
+
+[node name="Bottom" type="Sprite2D" parent="BobSelect/Visuals"]
+modulate = Color(0.2, 0.305882, 0.309804, 1)
+light_mask = 2
+position = Vector2(-16, 4)
+texture = ExtResource("7_scttc")
+centered = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="BobSelect/Visuals/Bottom"]
+position = Vector2(11, 39)
+occluder = SubResource("OccluderPolygon2D_tslne")
+
+[node name="AreaArea" type="Area2D" parent="BobSelect"]
+position = Vector2(231.755, -154.589)
+rotation = -1.04928
+scale = Vector2(1.5, 1.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BobSelect/AreaArea"]
+polygon = PackedVector2Array(-178.852, -20.519, -26.4735, -143.685, -161.372, -222.495, -252.872, -64.0122)
+
+[node name="Polygon2D" type="Polygon2D" parent="BobSelect"]
+position = Vector2(231.755, -154.589)
+scale = Vector2(1.5, 1.5)
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BobSelect"]
+libraries = {
+&"": SubResource("AnimationLibrary_2u03c")
+}
+
+[node name="CharAnim" type="AnimationPlayer" parent="BobSelect"]
+libraries = {
+&"": SubResource("AnimationLibrary_2u03c")
+}
+
+[node name="MilkmanSelect" type="Node2D" parent="." node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
+position = Vector2(240, 204)
+script = ExtResource("9_eve6d")
+char_id = "milkman"
+area = NodePath("Visuals/Character/Area2D")
+area_area = NodePath("AreaArea")
+area_poly = NodePath("Polygon2D")
+anim = NodePath("AnimationPlayer")
+char_anim = NodePath("CharAnim")
+text_color = Color(0.815686, 0.737255, 0.67451, 1)
+
+[node name="Visuals" type="Node2D" parent="MilkmanSelect"]
+
+[node name="Character" type="Sprite2D" parent="MilkmanSelect/Visuals"]
+light_mask = 2
+position = Vector2(-11, -39)
+texture = ExtResource("8_th5m4")
+centered = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="MilkmanSelect/Visuals/Character"]
+position = Vector2(11, 39)
+occluder = SubResource("OccluderPolygon2D_wwvr2")
+
+[node name="Area2D" type="Area2D" parent="MilkmanSelect/Visuals/Character"]
+position = Vector2(11.3301, 39.5718)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MilkmanSelect/Visuals/Character/Area2D"]
+position = Vector2(-0.687836, -16.1824)
+shape = SubResource("RectangleShape2D_tm36i")
+
+[node name="Bottom" type="Sprite2D" parent="MilkmanSelect/Visuals"]
+modulate = Color(0.815686, 0.737255, 0.67451, 1)
+light_mask = 2
+position = Vector2(-16, 4)
+texture = ExtResource("7_scttc")
+centered = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="MilkmanSelect/Visuals/Bottom"]
+position = Vector2(11, 39)
+occluder = SubResource("OccluderPolygon2D_tslne")
+
+[node name="AreaArea" type="Area2D" parent="MilkmanSelect"]
+position = Vector2(236, -138)
+rotation = -1.04928
+scale = Vector2(1.5, 1.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MilkmanSelect/AreaArea"]
+polygon = PackedVector2Array(-159.822, 0.850769, -37.0194, -152.748, -42.0013, -161.418, -235.548, -130.943)
+
+[node name="Polygon2D" type="Polygon2D" parent="MilkmanSelect"]
+position = Vector2(236, -138)
+scale = Vector2(1.5, 1.5)
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MilkmanSelect"]
+libraries = {
+&"": SubResource("AnimationLibrary_2u03c")
+}
+
+[node name="CharAnim" type="AnimationPlayer" parent="MilkmanSelect"]
+libraries = {
+&"": SubResource("AnimationLibrary_2u03c")
+}
+
+[node name="ObeyaSelect" type="Node2D" parent="." node_paths=PackedStringArray("area", "area_area", "area_poly", "anim", "char_anim")]
+position = Vector2(380, 184)
+rotation = -0.523599
+script = ExtResource("9_eve6d")
+char_id = "obeya"
+area = NodePath("Visuals/Character/Area2D")
+area_area = NodePath("AreaArea")
+area_poly = NodePath("Polygon2D")
+anim = NodePath("AnimationPlayer")
+char_anim = NodePath("CharAnim")
+text_color = Color(0.270588, 0.2, 0.305882, 1)
+
+[node name="Visuals" type="Node2D" parent="ObeyaSelect"]
+
+[node name="Character" type="Sprite2D" parent="ObeyaSelect/Visuals"]
+light_mask = 2
+position = Vector2(-11, -39)
+texture = ExtResource("9_kq8cu")
+centered = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObeyaSelect/Visuals/Character"]
+position = Vector2(11, 39)
+occluder = SubResource("OccluderPolygon2D_wwvr2")
+
+[node name="Area2D" type="Area2D" parent="ObeyaSelect/Visuals/Character"]
+position = Vector2(11.3301, 39.5718)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObeyaSelect/Visuals/Character/Area2D"]
+position = Vector2(-0.687836, -18.0083)
+shape = SubResource("RectangleShape2D_tm36i")
+
+[node name="Bottom" type="Sprite2D" parent="ObeyaSelect/Visuals"]
+modulate = Color(0.270588, 0.2, 0.305882, 1)
+light_mask = 2
+position = Vector2(-16, 4)
+texture = ExtResource("7_scttc")
+centered = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObeyaSelect/Visuals/Bottom"]
+position = Vector2(11, 39)
+occluder = SubResource("OccluderPolygon2D_tslne")
+
+[node name="AreaArea" type="Area2D" parent="ObeyaSelect"]
+position = Vector2(239.449, -152.738)
+rotation = -1.04928
+scale = Vector2(1.5, 1.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ObeyaSelect/AreaArea"]
+polygon = PackedVector2Array(-227.843, -20.4749, -44.843, -20.0938, -44.5202, -175.093, -227.67, -103.475)
+
+[node name="Polygon2D" type="Polygon2D" parent="ObeyaSelect"]
+position = Vector2(239.449, -152.738)
+scale = Vector2(1.5, 1.5)
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ObeyaSelect"]
+libraries = {
+&"": SubResource("AnimationLibrary_2u03c")
+}
+
+[node name="CharAnim" type="AnimationPlayer" parent="ObeyaSelect"]
+libraries = {
+&"": SubResource("AnimationLibrary_2u03c")
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2w682")
+}

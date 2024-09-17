@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://1f7t5j8tr36n"]
-
-[ext_resource type="Script" path="res://packs/dialogue/dialogue_manager.gd" id="1_ygkma"]
-
-[node name="DialogueManager" type="Node"]
-script = ExtResource("1_ygkma")
-speakers_dir = "res://resources/dialogue/speakers"

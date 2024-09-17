@@ -56,3 +56,9 @@ tudyslaier calcopod
       - [ ] ???
 - [ ] Basic save / load system (character and world files)
 - [ ] Multiplayer stuff
+
+### 17.09.2024:
+- [x] Regained motivtaion to work on project let's goooo!
+
+- [ ] Reimplement smooth arthificial style camera
+- [ ] Implement custom black bars for scaling or sth
