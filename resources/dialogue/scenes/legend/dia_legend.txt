@@ -1,7 +1,7 @@
 [Speaker legend_narator]
 [Speed 10]
 
-Minge de foc,[n]
+[wave amp=50.0 freq=5.0 connected=1]Minge de foc,[/wave][n]
 Minge de foc,[n]
 Eu sunt BOB
 

@@ -69,7 +69,7 @@ func await_deferred() -> Signal:
 # Changes scene to a node (in / out of tree)
 const TRANSITION_FADE: StringName = &"fade"
 
-@onready var _scene_transition_anim: AnimationPlayer = $"HDWorld-HighRes/CanvasLayer/AnimationPlayer"
+@onready var _scene_transition_anim: AnimationPlayer = $"CanvasLayer/AnimationPlayer"
 func change_scene(node: Node, params: TransitionParams) -> void:
 	if _scene_transition_anim.is_playing():
 		_scene_transition_anim.stop()

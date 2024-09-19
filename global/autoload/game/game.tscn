@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbolod7ldfpx7"]
+[gd_scene load_steps=8 format=3 uid="uid://cbolod7ldfpx7"]
 
 [ext_resource type="Script" path="res://global/autoload/game/game.gd" id="1_axxfn"]
-[ext_resource type="PackedScene" path="res://addons/hd_world/hd_world_high_res.tscn" id="2_t0rq7"]
 [ext_resource type="Script" path="res://global/autoload/game/pre_process.gd" id="3_8qipo"]
 [ext_resource type="Script" path="res://global/autoload/game/post_process.gd" id="4_khlfx"]
 
@@ -53,25 +52,23 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eum63"]
 _data = {
-"RESET": SubResource("Animation_bdgqp"),
-"fade_in": SubResource("Animation_rb121"),
-"fade_out": SubResource("Animation_n1ceh")
+&"fade_in": SubResource("Animation_rb121"),
+&"fade_out": SubResource("Animation_n1ceh"),
+&"RESET": SubResource("Animation_bdgqp")
 }
 
 [node name="Game" type="Node"]
 script = ExtResource("1_axxfn")
 
-[node name="HDWorld-HighRes" parent="." groups=["hdworld_permanent"] instance=ExtResource("2_t0rq7")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="HDWorld-HighRes"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 99
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HDWorld-HighRes/CanvasLayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 libraries = {
-"": SubResource("AnimationLibrary_eum63")
+&"": SubResource("AnimationLibrary_eum63")
 }
 
-[node name="ColorRect" type="ColorRect" parent="HDWorld-HighRes/CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
